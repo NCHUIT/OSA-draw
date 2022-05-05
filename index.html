@@ -3,15 +3,6 @@
   Portions of this page are modifications based on work created and
   shared by Google and used according to terms described in the
   Creative Commons 4.0 Attribution License.
-  學校開源的抽獎系統，各有優缺點，教官把程式碼修改了一下給我參考：
-  
-  https://www.osa.nchu.edu.tw/lottery/
-  這個是會直接抓取google表單的資料，功能陽春，事前需要設定好google程式碼
-  
-  https://www.osa.nchu.edu.tw/luckydraw/
-  這個是手動貼入名單，功能較多，可設定獎項跟下載名單
-  
-  上面兩個教官都改成會自動篩選重複名單，如果手上已經有更好的解決方案那就更好了～
 -->
 
 <!DOCTYPE html>
@@ -35,6 +26,10 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js"></script>
+  <!-- From https://zh-hant.reactjs.org/docs/add-react-to-a-website.html -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
   <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
   <!--[if lt IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js" type="text/javascript"></script>
@@ -285,11 +280,7 @@ data-position="top right" data-inverted><i class="angle double up icon"></i></di
 </style>
 
 <script>
-  /**
-   * Portions of this page are modifications based on work created and
-   * shared by Google and used according to terms described in the
-   * Creative Commons 4.0 Attribution License.
-   */
+  'use strict';
   var 暫存資料庫 = [], 題庫 = [], 目前抽取 = [], 登入狀態, 正確答案;
 
   const 使用者名稱 = document.getElementById('使用者名稱'),
