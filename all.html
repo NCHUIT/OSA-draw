@@ -1,0 +1,700 @@
+<!-- Copyright (C) 2022 NCHU OSA <dromegen@email.nchu.edu.tw>.
+
+  Portions of this page are modifications based on work created and
+  shared by Google and used according to terms described in the
+  Creative Commons 4.0 Attribution License.
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>2022 中興大學抽獎系統</title>
+  <meta name="description" content="2022 中興大學抽獎系統">
+  <meta property="og:image" content="https://www.nchu.edu.tw/favicon.ico">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="robots" content="noindex">
+  <!-- 防止 Mobile Device 的 Zoom in/Out (除了 Safari 10 不支援) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+
+  <link rel="icon" href="https://www.nchu.edu.tw/favicon.ico">
+  <link rel="apple-touch-icon" href="https://www.nchu.edu.tw/favicon.ico">
+  <!-- semantic-ui css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+  <!-- font-awesome css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <!-- google api -->
+  <script src="https://apis.google.com/js/api.js"></script>
+  <!-- jquery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- semantic-ui js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+  <!-- font-awesome js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js"></script>
+  <!-- From https://zh-hant.reactjs.org/docs/add-react-to-a-website.html -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+  <!--[if lt IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js" type="text/javascript"></script>
+  <![endif]-->
+</head>
+
+<body>
+  <!-- 導覽列 -->
+  <div class="ui grid" id="導覽列">
+    <div class="computer only row">
+      <div class="column">
+        <div class="ui top stackable compact menu tabular attached">
+          <a id="使用說明頁籤" class="icon item blue" data-tooltip="系統說明" data-position="bottom left">
+            <i class="fa fa-question circle outline
+                    " aria-hidden="true"></i>
+            <span>&nbsp;&nbsp;系統說明</span>
+          </a>
+          <a id="抽獎系統頁籤" class="icon item blue active" data-tooltip="開始抽獎" data-position="bottom left">
+            <i class="fa fa-ticket" aria-hidden="true"></i>
+            <span>&nbsp;&nbsp;抽獎系統</span>
+          </a>
+          <a id="編輯資料頁籤" class="icon item blue" data-tooltip="編輯資料" data-position="bottom left">
+            <i class="fa fa-edit " aria-hidden="true"></i>
+            <span>&nbsp;&nbsp;編輯資料</span>
+          </a>
+          <a id="抽獎結果頁籤" class="icon item blue" data-tooltip="抽獎結果" data-position="bottom left">
+            <i class="fa fa-file alternate" aria-hidden="true"></i>
+            <span>&nbsp;&nbsp;抽獎結果</span>
+          </a>
+          <a class="icon item" data-tooltip="獎品選單" data-position="bottom left">
+            <i class="fa fa-gift" aria-hidden="true"></i>
+            <span>&nbsp;&nbsp;
+              <select class="ui search dropdown" id="search-select">
+                <option value="">獎品選單</option>
+                <option value="AL">Alabama</option>
+                <option value="AK">Alaska</option>
+                <option value="AZ">Arizona</option>
+                <option value="AR">Arkansas</option>
+                <option value="CA">California</option>
+                <option value="CO">Colorado</option>
+                <option value="CT">Connecticut</option>
+                <option value="DE">Delaware</option>
+                <option value="DC">District Of Columbia</option>
+              </select>
+            </span>
+          </a>
+          <div class="right menu">
+            <a class="icon item" data-tooltip="Google 試算表" data-position="bottom center"
+              href="https://docs.google.com/spreadsheets/d/1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw" target="_blank">
+              <i><img src="https://i.imgur.com/ky2ykVM.png"></i>
+            </a>
+            <div id="選單說明按鈕" style="cursor: pointer;" class="item ui header" data-tooltip="使用者"
+              data-position="bottom center">
+              <i class="fa fa-question-circle"></i>
+            </div>
+            <div id="登入按鈕區塊" style="cursor: pointer;" class="icon item" data-tooltip="登入 Google 帳號 以存取試算表"
+              data-position="bottom center">
+              <div id="登入按鈕" class="positive ui button" style="display:none">登入</div>
+              <div id="登出按鈕" class="google plus ui button compact fade animated Inverted" style="display:none">
+                <div class="visible content"><span id="使用者名稱"></span></div>
+                <div class="hidden content">
+                  <h5>登出</h5>
+                </div>
+              </div>
+              <div id="載入按鈕" class="ui loading button">載入</div>
+            </div>
+            <div id="關閉導覽" class="icon item" style="cursor: pointer;" data-tooltip="收合設定欄" data-position="bottom right">
+              <i class="large window close outline icon" style="margin-right:20px;"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tablet mobile only row">
+      <div class="column">
+        <div class="ui menu large">
+          <a id="mobile_item" class="item large"><i class="bars icon"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="開啟導覽" class="ui vertical animated button mobilehide" style="width:60px;">
+    <div class=" hidden content">設定</div>
+    <div class="visible content">
+      <i class="sliders horizontal icon"></i>
+    </div>
+  </div>
+  <!-- 選單rwd -->
+  <div class="ui pushable segment">
+    <div class="ui sidebar vertical menu">
+      <a id="使用說明頁籤rwd" class="icon item blue">
+        <i class="fa fa-question circle outline
+            " aria-hidden="true"></i>
+        <span>&nbsp;&nbsp;系統說明</span>
+      </a>
+      <a id="抽獎系統頁籤rwd" class="icon item blue">
+        <i class="fa fa-ticket" aria-hidden="true"></i>
+        <span>&nbsp;&nbsp;抽獎系統</span>
+      </a>
+      <a id="編輯資料頁籤rwd" class="icon item blue active">
+        <i class="fa fa-edit " aria-hidden="true"></i>
+        <span>&nbsp;&nbsp;編輯資料</span>
+      </a>
+      <a id="抽獎結果頁籤rwd" class="icon item blue">
+        <i class="fa fa-file alternate" aria-hidden="true"></i>
+        <span>&nbsp;&nbsp;抽獎結果</span>
+      </a>
+      <a class="icon item">
+        <i class="fa fa-gift" aria-hidden="true"></i>
+        <span>&nbsp;&nbsp;
+          <select class="ui search dropdown item mobile only" id="search-select-rwd">
+            <option value="">獎品選單</option>
+            <option value="AL">Alabama</option>
+            <option value="AK">Alaska</option>
+            <option value="AZ">Arizona</option>
+            <option value="AR">Arkansas</option>
+            <option value="CA">California</option>
+            <option value="CO">Colorado</option>
+            <option value="CT">Connecticut</option>
+            <option value="DE">Delaware</option>
+            <option value="DC">District Of Columbia</option>
+          </select>
+        </span>
+      </a>
+      <a class="icon item row">
+        <a class="icon item" target="_blank"
+          href="https://docs.google.com/spreadsheets/d/1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw">
+          <i><img src="https://i.imgur.com/ky2ykVM.png"></i>
+        </a>
+        <div id="選單說明按鈕" style="cursor: pointer;" class="ui header item ">
+          <i class="fa fa-question-circle"></i>
+        </div>
+        <div id="登入按鈕區塊" style="cursor: pointer;" class="icon item">
+          <div id="登入按鈕" class="positive ui button" style="display:none">登入</div>
+          <div id="登出按鈕" class="google plus ui button compact fade animated Inverted" style="display:none">
+            <div class="visible content"><span id="使用者名稱"></span></div>
+            <div class="hidden content">
+              <h5>登出</h5>
+            </div>
+          </div>
+          <div id="載入按鈕" class="massive ui loading button">載入</div>
+        </div>
+      </a>
+    </div>
+
+    <!-- 使用說明分頁 -->
+    <div class="pusher" id="使用說明分頁" style="display:none">
+      <div id="content">
+        <!-- hackmd 使用說明-->
+        <iframe id="說明" class="ui segment" frame-border="0" width="100%" height="100%"
+          src="https://hackmd.io/@NCHUIT/GiCS">說明載入中...</iframe>
+      </div>
+    </div>
+
+    <!-- 抽獎系統分頁 -->
+    <div class="pusher" id="抽獎系統分頁">
+      <pre id="狀態欄" class="ui container">👉資料載入中…<br></pre>
+    </div>
+
+    <!-- 編輯資料分頁 -->
+    <div class="pusher" id="編輯資料分頁" style="display:none">
+      <!-- google表單填寫-同學名單 -->
+      <iframe id="content" class="ui segment"
+        src="https://docs.google.com/forms/d/e/1FAIpQLSfMexnj15dM3iVNx0CV5Jq46yBfB51AenZmMiWmPRjo-yIMeA/viewform?embedded=true"
+        width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0">載入中…</iframe>
+      <!-- google表單填寫-獎品編輯 -->
+      <iframe id="content" class="ui segment"
+        src="https://docs.google.com/forms/d/e/1FAIpQLSfPC-JJJOaR8dMcbSJqO03xcDDnIgWok56eQoqXG5mm3-PH7A/viewform?embedded=true"
+        width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0">載入中…</iframe>
+    </div>
+    
+    <!-- 抽獎結果分頁 -->
+    <div class="pusher" id="抽獎結果分頁" style="display:none">
+        <div id="content" class="ui segment">
+
+
+        </div>
+    </div>
+  </div>
+
+
+  <!-- 至頂按鈕 -->
+  <div id="至頂按鈕" class="cursor_pointer circular massive ui negative icon button" data-tooltip="回到最上面"
+    data-position="top right" data-inverted><i class="angle double up icon"></i></div>
+
+  <!-- footer -->
+  <div class="ui inverted footer bottom text menu">
+    <div class="ui container">
+      <div class="item">
+        ©Copyright 2022 Office of Student Affairs NCHU All Rights Reserved
+      </div>
+    </div>
+  </div>
+
+  <!-- <div id="選擇視窗" class="ui mini basic modal">
+    <div class="ui icon header">
+      <i class="list icon"></i>
+      選擇題庫年份
+    </div>
+    <div class="content">
+      已區隔 2022 和 2021 兩個題庫，請選擇
+    </div>
+    <div class="actions">
+      <div id="選擇視窗2022按鈕" class="ui green ok inverted button">2022</div>
+      <div id="選擇視窗2021按鈕" class="ui red cancel inverted button">2021</div>
+    </div>
+  </div> -->
+
+  <!-- 錯誤訊息提示框 -->
+  <div id="錯誤訊息視窗" class="ui tiny modal">
+    <div class="header">⚠️錯誤訊息</div>
+    <pre id="錯誤訊息視窗內文" class="content"></pre>
+    <div class="actions">
+      <div id="錯誤訊息視窗登入按鈕" class="ui positive button">重新登入</div>
+      <div class="ui negative button">關閉</div>
+    </div>
+  </div>
+  <!-- 載入畫面說明框 -->
+  <div id="載入提示" class="ui active dimmer" style="display:none">
+    <div class="ui massive text loader">
+      載入中<br>
+      未登入請至右上方登入<br>
+      已登入遲遲未載入請點我<br>
+      滑鼠移到上方按鈕無反應時<br>
+      請鍵 <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Delete</kbd><br>
+      並清除瀏覽器 Cookie
+    </div>
+  </div>
+  <iframe name="formResponse" sandbox="allow-scripts allow-same-origin" tabindex="-1" aria-hidden="true"
+    frame-border="0"></iframe>
+</body>
+
+<style>
+  #content {
+      height: 100vh;
+  }
+
+  .ui.grid {
+      padding: 0 !important;
+  }
+
+  .pushable.segment {
+      margin: 0 !important;
+  }
+
+
+  .fade.button {
+      opacity: unset;
+  }
+
+  #選單說明按鈕 i img {
+      -webkit-border-radius: 50%;
+      border-radius: 50%;
+  }
+
+  iframe[name$="formResponse"] {
+      width: 1px;
+      height: 1px;
+      position: absolute;
+      top: -100px;
+      display: none;
+  }
+
+  i img {
+      height: 24px !important;
+  }
+
+  #載入提示 {
+      z-index: 100;
+  }
+
+  #狀態欄 {
+      white-space: pre-wrap;
+      font-size: large;
+  }
+
+  .ui.modal p {
+      white-space: unset !important;
+  }
+
+  .ui.modal,
+  #說明視窗.ui.modal {
+      top: unset !important;
+      left: unset !important;
+  }
+
+  .ui.inverted.footer.text.menu {
+      background-color: #1b1c1d !important;
+  }
+
+  .ui.footer.menu img {
+      height: 100% !important;
+      width: 100% !important;
+  }
+
+  /* from https://www.w3schools.com/howto/howto_js_scroll_to_top.asp */
+  #至頂按鈕 {
+      display: none;
+      /* Hidden by default */
+      position: fixed;
+      /* Fixed/sticky position */
+      bottom: 70px;
+      /* Place the button at the bottom of the page */
+      right: 30px;
+      /* Place the button 30px from the right */
+      z-index: 100;
+      /* Make sure it does not overlap */
+  }
+
+  /* from https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_hide_scrollbar_keep_func */
+  .ui.inverted.segment {
+      overflow-y: scroll;
+      /* Add the ability to scroll */
+  }
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .ui.inverted.segment::-webkit-scrollbar {
+      display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .ui.inverted.segment {
+      -ms-overflow-style: none;
+      /* IE and Edge */
+      scrollbar-width: none;
+      /* Firefox */
+  }
+
+  #開啟導覽 {
+      display: flex;
+      position: absolute;
+      top: 1em;
+      right: 3em;
+  }
+
+
+  @media (max-width: 767px) {
+      .mobilehide {
+          display: none !important;
+      }
+  }
+</style>
+
+<script>//宣穎
+  "use strict";
+  $(document).ready(function () {    
+      $('#search-select').dropdown();
+      $('#search-select-rwd').dropdown();
+      $('#開啟導覽').hide();
+
+      $('#關閉導覽').on('click', function () {
+          $('#導覽列').transition('fade down');
+          $('#開啟導覽').show();
+      })
+      $('#開啟導覽').on('click', function () {
+          $('#導覽列').transition('fade up');
+          $('#開啟導覽').css('display', 'none');
+      })
+      $('.ui.sidebar').sidebar({
+          context: $('.ui.pushable.segment'),
+          transition: 'overlay',
+      }).sidebar('attach events', '#mobile_item');
+  })
+</script>
+
+<script>//維傑
+  'use strict';
+  const 頁面 = ['使用說明','抽獎系統','編輯資料','抽獎結果'];
+  function 切換分頁(啥='') {
+    for(const 啥 of 頁面){
+      $(`#${啥}分頁`).hide();
+      $(`#${啥}頁籤`).removeClass('active');
+      $(`#${啥}頁籤rwd`).removeClass('active');
+    }
+    $(`#${啥}分頁`).show();
+    $(`#${啥}頁籤`).addClass('active');
+    $(`#${啥}頁籤rwd`).addClass('active');
+  }
+  for(const 啥 of 頁面){
+    $(`#${啥}頁籤`).click(ev => 切換分頁(啥));
+    $(`#${啥}頁籤rwd`).click(ev => 切換分頁(啥));
+  }
+
+  var 暫存資料庫 = [], 題庫 = [], 目前抽取 = [], 登入狀態, 正確答案;
+
+  const 使用者名稱 = document.getElementById('使用者名稱'),
+    選單說明按鈕 = document.getElementById('選單說明按鈕'),
+    登入按鈕區塊 = document.getElementById('登入按鈕區塊'),
+    登入按鈕 = document.getElementById('登入按鈕'),
+    登出按鈕 = document.getElementById('登出按鈕'),
+    載入按鈕 = document.getElementById('載入按鈕'),
+    載入提示 = document.getElementById('載入提示'),
+    送出按鈕 = document.getElementById('送出按鈕'),
+    至頂按鈕 = document.getElementById('至頂按鈕'),
+    狀態欄 = document.getElementById('狀態欄'),
+    錯誤訊息視窗 = document.getElementById('錯誤訊息視窗'),
+    錯誤訊息視窗內文 = document.getElementById('錯誤訊息視窗內文'),
+    錯誤訊息視窗登入按鈕 = document.getElementById('錯誤訊息視窗登入按鈕');
+
+  // From https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep
+  const sleep = (ms = 0) => new Promise(r => setTimeout(r, ms));
+
+  /** From https://developers.google.com/sheets/api/quickstart/js  
+   *  Called when the signed in status changes, to update the UI
+   *  appropriately. After a sign-in, the API is called.
+   */
+  function 更新登入狀態(isSignedIn = Boolean(gapi.auth2.getAuthInstance().isSignedIn.get()), 只是看看 = false) {
+    載入按鈕.style.display = 'none';
+    if (isSignedIn) {
+      登入按鈕.style.display = 'none';
+      登出按鈕.style.display = 'block';
+      if (只是看看) return isSignedIn;
+      重載資料庫();
+    } else {
+      登入按鈕.style.display = 'block';
+      登出按鈕.style.display = 'none';
+    }
+    // From https://developers.google.com/identity/sign-in/web/people
+    if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
+      const profile = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile();
+      使用者名稱.innerHTML = profile.getName();
+      選單說明按鈕.innerHTML = `<i><img src="${profile.getImageUrl()}"></i>`;
+      登入按鈕區塊.setAttribute("data-tooltip", "已登入 " + profile.getEmail());
+    } else {
+      使用者名稱.innerHTML = "登出";
+      選單說明按鈕.innerHTML = `<i class="fa fa-question-circle"></i>`;
+      登入按鈕區塊.setAttribute("data-tooltip", "登入 Google 帳號 以存取試算表");
+    }
+    return isSignedIn;
+  }
+
+  // From https://stackoverflow.com/a/12646864/13189986
+  function 打亂陣列(陣列 = []) {
+    for (let i = 陣列.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [陣列[i], 陣列[j]] = [陣列[j], 陣列[i]];
+    }
+    return 陣列;
+  }
+
+  function 抽獎() {
+    載入提示.style.display = 'flex';
+    $('#送出按鈕').hide();
+    $('#抽獎按鈕').show();
+    if (暫存資料庫.length < 1 && !更新登入狀態()) 登入();
+    目前抽取 = 暫存資料庫.pop();
+    // 輸入框[0].value = 輸入框[0].innerHTML = 目前抽取[0];
+    正確答案 = String(目前抽取[1]);
+    目前抽取 = 打亂陣列(目前抽取.slice(1));
+    // for (const 元素 of 輸入框.slice(1))
+    //   元素.value = 元素.innerHTML = 目前抽取.pop();
+    // for (const i in 輸入框) 目前抽取[i] = 輸入框[i].innerHTML;
+    載入提示.style.display = 'none';
+  }
+
+  async function 檢查答案(選項 = new HTMLElement()) {
+    if (送出按鈕.style.display == 'none') {
+      if (正確答案 === 選項.value || 正確答案 === 選項.innerHTML) {
+        錯題音效.pause();
+        音效播放(正解音效);
+        await sleep(50);
+        if (confirm('⭕答對啦！\n\n' + 正確答案 + '\n\n按下取消(Esc)返回、確定(Enter)抽獎'))
+          抽獎();
+      } else {
+        正解音效.pause();
+        音效播放(錯題音效);
+      }
+    } else {
+      for (const 元素 of 輸入框.slice(1)) {
+        if (元素.value == 選項.value || 元素.innerHTML == 選項.innerHTML) {
+          [輸入框[1].value, 輸入框[1].innerHTML, 選項.value, 選項.innerHTML] =
+            [選項.value, 選項.innerHTML, 輸入框[1].value, 輸入框[1].innerHTML];
+        }
+      }
+    }
+  }
+
+  // From https://developers.google.com/sheets/api/quickstart/js
+  function 狀態欄續寫(訊息 = '') {
+    狀態欄.appendChild(document.createTextNode(訊息 + '\n'));
+    return 訊息;
+  }
+
+  function 重設狀態欄(訊息 = `👉共載入${題庫.length}筆(新到舊)`) {
+    狀態欄.innerHTML = 訊息 + '\n';
+    return 訊息;
+  }
+
+  function 彈出錯誤訊息(訊息 = '') {
+    重設狀態欄('⚠️錯誤訊息');
+    狀態欄續寫(訊息);
+    錯誤訊息視窗內文.innerHTML = 訊息;
+    $('#錯誤訊息視窗').modal('show');
+    錯誤訊息視窗.style.left = 'unset';
+    return 訊息;
+  }
+
+  // From https://developers.google.com/sheets/api/quickstart/js
+  async function 重載資料庫() {
+    載入提示.style.display = 'flex';
+    重設狀態欄();
+    gapi.client.sheets.spreadsheets.values.get({
+      spreadsheetId: '1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw',
+      range: '同學資料!B2:F',
+    }).then(function (response) {
+      載入提示.style.display = 'flex';
+      var range = response.result;
+      if (range.values.length > 0) {
+        題庫 = 暫存資料庫 = range.values;
+        重設狀態欄();
+        題庫.reverse();
+        const 欄位標題 = ['科系', '姓名', '學號', '電話', '座位'];
+        for (const row of 題庫) {
+          for (const i in 欄位標題)
+            狀態欄續寫('\n' + 欄位標題[i] + ': ' + row[i]);
+          狀態欄續寫('\n');
+        }
+        打亂陣列(暫存資料庫);
+        抽獎();
+      } else 彈出錯誤訊息('No data found.');
+    }, 回應 => 彈出錯誤訊息('Error: ' + 回應.result.error.message));
+  }
+
+  async function 登入() {
+    載入提示.style.display = 'flex';
+    載入按鈕.style.display = 'block';
+    登入按鈕.style.display = 'none';
+    if (gapi.auth2.getAuthInstance().isSignedIn.get())
+      gapi.auth2.getAuthInstance().signOut();
+    try {
+      await new Promise(r => gapi.auth2.getAuthInstance().signIn());
+    } catch (e) { // TO-DO
+      console.log(e);
+    }
+    gapi.auth2.getAuthInstance().isSignedIn.listen(更新登入狀態);
+    更新登入狀態();
+  }
+
+  function 清除輸入框() {
+    document.forms[0].reset();
+    for (input of document.forms[0])
+      input.value = input.innerHTML = null;
+    $('#送出按鈕').hide();
+    $('#抽獎按鈕').show();
+  }
+
+  function 送出題目() {
+    if (!gapi.auth2.getAuthInstance().isSignedIn.get()) return 彈出錯誤訊息('未登入');
+    if (送出按鈕.style.display == 'none' || 檢查題目()) return;
+    else if (confirm(輸入框[1].value + '\n\n是正確答案嗎?\n\n按下確定(Enter)送至 Google 試算表')) {
+      document.forms[0].submit();
+      $('#送出按鈕').hide()
+      $('#抽獎按鈕').show();
+      更新登入狀態();
+    }
+  }
+
+  function 檢查題目() {
+    const value = 輸入框[0].value;
+    const innerHTML = 輸入框[0].innerHTML;
+    for (const row of 題庫)
+      if ((value && value.length > 5
+        && String(row[0]).indexOf(value) > -1)
+        || (innerHTML && innerHTML.length > 5
+          && String(row[0]).indexOf(innerHTML) > -1)) {
+        if (!confirm(`有這個題目了，檢查正確答案無誤?
+
+⭕正確答案: ${row[1]}
+
+錯誤答案1: ${row[2]}
+錯誤答案2: ${row[3]}
+錯誤答案3: ${row[4]}
+
+按下取消(Esc)以關閉，確定(Enter)以編輯/送出修改
+👉記得到試算表刪掉原來錯的，自動刪除開發中...`)) return true;
+        else break;
+      }
+    return false;
+  }
+
+  // EventListener
+  /* 
+    document.getElementById('清除按鈕').onclick = 清除輸入框;
+    document.getElementById('抽獎按鈕').onclick = 抽獎;
+    document.getElementById('選單說明按鈕').onclick =
+      document.getElementById('驚嘆號按鈕').onclick = e => $('#說明視窗').modal('show');
+  
+    送出按鈕.onclick = 送出題目;
+    按鈕A.onclick = e => 檢查答案(輸入框[1]);
+    按鈕B.onclick = e => 檢查答案(輸入框[2]);
+    按鈕C.onclick = e => 檢查答案(輸入框[3]);
+    按鈕D.onclick = e => 檢查答案(輸入框[4]);
+   */
+  登入按鈕.onclick = 錯誤訊息視窗登入按鈕.onclick = 登入;
+
+  登出按鈕.onclick = e => {
+    重設狀態欄('您已登出');
+    載入按鈕.style.display = 'block';
+    暫存資料庫 = 題庫 = 目前抽取 = 正確答案 = [];
+    清除輸入框();
+    gapi.auth2.getAuthInstance().signOut();
+    // From https://stackoverflow.com/questions/179355/clearing-all-cookies-with-javascript
+    for (const cookie of document.cookie.split(";")) { // Clearing all cookies
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+    更新登入狀態(false);
+  };
+
+  載入按鈕.onclick = 載入提示.onclick = e => {
+    if (更新登入狀態()) 重載資料庫();
+  };
+
+  // When the user clicks on the button, scroll to the top of the document
+  至頂按鈕.onclick = e => {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  };
+
+  onfocus = e => 更新登入狀態(gapi.auth2.getAuthInstance().isSignedIn.get(), true);
+  onblur = e => {
+    登入按鈕.style.display = 登出按鈕.style.display = 'none';
+    載入按鈕.style.display = 'block';
+  }
+  // from https://www.w3schools.com/howto/howto_js_scroll_to_top.asp
+  // When the user scrolls down 20px from the top of the document, show the button
+  onscroll = e => {
+    if (document.body.scrollTop > innerHeight
+      || document.documentElement.scrollTop > innerHeight) {
+      至頂按鈕.style.display = "block";
+    } else {
+      至頂按鈕.style.display = "none";
+    }
+  };
+
+  // 取出試算表資料-
+  // From https://developers.google.com/sheets/api/quickstart/js
+  // On load, called to load the auth2 library and API client library.
+  gapi.load('client:auth2', e => {
+    // Initializes the API client library and sets up sign-in state listeners.
+    gapi.client.init({
+      // Client ID and API key from the Developer Console
+      clientId: '289902636224-oro06s681gdgk1kqrv8o1oca2shocfr4.apps.googleusercontent.com',
+      apiKey: 'AIzaSyCRfe3-dnm9GGMH_PFm9m5WHBMb_8U9HXY',
+      /**Array of API discovery doc URLs for APIs used by the quickstart */
+      discoveryDocs: ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
+      /**Authorization scopes required by the API; multiple scopes can be
+       * included, separated by spaces. */
+      scope: "https://www.googleapis.com/auth/spreadsheets.readonly"
+    }).then(e => {
+      // Listen for sign-in state changes.
+      gapi.auth2.getAuthInstance().isSignedIn.listen(更新登入狀態);
+      // Handle the initial sign-in state.
+      if (!更新登入狀態()) 登入();
+    }, 錯誤 => 彈出錯誤訊息(JSON.stringify(錯誤, null, 2)));
+  });
+</script>
+
+</html>
