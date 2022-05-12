@@ -25,8 +25,12 @@
   }
  */
 
-#content {
+/* #content {
     height: 100%;
+} */
+
+#content {
+    height: 100vh;
 }
 
 .ui.grid {
@@ -66,30 +70,6 @@ i img {
 #狀態欄 {
     white-space: pre-wrap;
     font-size: large;
-}
-
-#answer-panel {
-    background-repeat: no-repeat !important;
-}
-
-#answer-panel.attack_modal_m_sprite {
-    width: 350px !important;
-}
-
-#answer-panel-question-content {
-    margin-left: unset !important;
-    margin-right: unset !important;
-}
-
-#answer-panel-question-content textarea {
-    width: 100%;
-    border: 0;
-    overflow-y: hidden;
-}
-
-.choice-button,
-.btn04 {
-    user-select: none !important
 }
 
 .ui.modal p {
@@ -155,9 +135,5 @@ i img {
 @media (max-width: 767px) {
     .mobilehide {
         display: none !important;
-    }
-
-    .pgo-style-submit-button-pASHWz {
-        top: 465px !important;
     }
 }
