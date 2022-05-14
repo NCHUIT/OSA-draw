@@ -89,6 +89,41 @@
     transform: scale(1.2);
 }
 
+/* right */
+.right {
+    position: absolute;
+    top: 42vh;
+    right: 14vw;
+}
+
+.draw_btn {
+    color: white;
+    font-size: 36px;
+    font-weight: 600;
+    letter-spacing: 2;
+    width: 160px;
+    height: 160px;
+    border-radius: 100px;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3), 0px 0px 40px #FEC785;
+    background: linear-gradient(0deg, rgb(0, 0, 0), rgb(55, 54, 54));
+    transition: 0.5s;
+}
+
+.draw_btn:hover {
+    background-color: #343333;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3), 0px 0px 20px #FEC785;
+    border: #eedc75f0 solid 10px;
+    background: linear-gradient(0deg, rgb(60, 59, 59), rgb(55, 54, 54));
+}
+
+.draw_btn :active {
+    background-color: #343333;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3), 0px 0px 20px #FEC785;
+    border: #eedc75f0 solid 10px;
+    background: linear-gradient(0deg, rgb(60, 59, 59), rgb(55, 54, 54));
+}
+
 /* section end */
 
 /* RWD start*/
