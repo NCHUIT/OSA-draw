@@ -28,9 +28,8 @@
 /* #content {
     height: 100%;
 } */
-
 #content {
-    height: 100vh;
+    height: 99.81vh;
 }
 
 .ui.grid {
@@ -131,6 +130,15 @@ i img {
     right: 3em;
 }
 
+.edit_btn {
+    font-size: medium;
+    color: white;
+    width: 130px;
+    height: 40px;
+    border-radius: 5px;
+    margin-bottom: 2em;
+    border: none;
+}
 
 @media (max-width: 767px) {
     .mobilehide {

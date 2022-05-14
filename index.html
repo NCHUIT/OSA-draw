@@ -35,7 +35,9 @@
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-
+  <!-- Swiper -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+  <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
   <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
   <!--[if lt IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js" type="text/javascript"></script>
@@ -85,11 +87,27 @@
             </span>
           </a>
           <div class="right menu">
-            <a class="icon item" data-tooltip="Google 試算表" data-position="bottom center"
+            <!-- <a class="icon item" data-tooltip="Google 試算表" data-position="bottom center"
               href="https://docs.google.com/spreadsheets/d/1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw"
               target="_blank">
               <i><img src="https://i.imgur.com/ky2ykVM.png"></i>
-            </a>
+            </a> -->
+            <!-- 聲音開啟/靜音 -->
+            <div id="靜音切換按鈕" class="cursor_pointer item ui header" data-tooltip="靜音/僅點選音效/播放背景音樂"
+              data-position="bottom right">
+              <i class="fa fa-volume-off"></i>
+            </div>
+            <div id="audio_container" class="pgo-style-audios-29lfQn">
+              <audio type="audio/mpeg" controlslist="nodownload" id="map_background_music" loop
+                src="">你的瀏覽器不支援音訊</audio>
+              <audio type="audio/mpeg" controlslist="nodownload" id="fight_background_music" loop
+                src="">你的瀏覽器不支援音訊</audio>
+              <audio type="audio/mpeg" controlslist="nodownload" id="victory_sound_effect" src="">
+                你的瀏覽器不支援音訊</audio>
+              <audio type="audio/mpeg" controlslist="nodownload" id="keep_going_sound_effect" src="">你的瀏覽器不支援音訊</audio>
+              <audio type="audio/mpeg" controlslist="nodownload" id="panel_btn_click_sound_effect"
+                src="">你的瀏覽器不支援音訊</audio>
+            </div>
             <div id="選單說明按鈕" style="cursor: pointer;" class="item ui header" data-tooltip="使用者"
               data-position="bottom center">
               <i class="fa fa-question-circle"></i>
@@ -196,30 +214,50 @@
 
     <!-- 抽獎系統分頁 -->
     <div class="pusher" id="抽獎系統分頁">
-      <pre id="狀態欄" class="ui container">👉資料載入中…<br></pre>
+      <iframe frameborder="0" noresize="noresize"
+        style="position: absolute; background: transparent; width: 100%; height:100%;" src="draw.html" frameborder="0">
+      </iframe>
+      <!-- <pre id="狀態欄" class="ui container">👉資料載入中…<br></pre> -->
     </div>
 
     <!-- 編輯資料分頁 -->
     <div class="pusher" id="編輯資料分頁" style="display:none">
+      <div>
+        <ul>
+          <li>
+            <h3>填寫新增資料表單</h3>
+            <button onclick="edit_students()" class="edit_btn"
+              style="background-color:rgba(54, 123, 245, 1); cursor: pointer;">新增同學名單</button>
+            <button id="edit_gift" onclick="edit_gift()" class="edit_btn"
+              style="background-color:rgba(243, 167, 46, 1);margin-left: 2em;cursor: pointer;">新增獎品資料</button>
+          </li>
+          <li>
+            <h3>使用試算表新增/刪除資料</h3>
+            <a class="icon item" target="_blank"
+              href="https://docs.google.com/spreadsheets/d/1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw">
+              <img src="https://i.imgur.com/ky2ykVM.png" style="height: 40px;">
+            </a>
+          </li>
+        </ul>
+      </div>
       <!-- google表單填寫-同學名單 -->
-      <iframe id="content" class="ui segment"
+      <iframe id="新增同學表單" class="ui segment"
         src="https://docs.google.com/forms/d/e/1FAIpQLSfMexnj15dM3iVNx0CV5Jq46yBfB51AenZmMiWmPRjo-yIMeA/viewform?embedded=true"
-        width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0">載入中…</iframe>
+        frameborder="0" scrolling="no" style=" width: 100%; height: 1200px;  overflow: hidden;">載入中…</iframe>
       <!-- google表單填寫-獎品編輯 -->
-      <iframe id="content" class="ui segment"
+      <iframe id="新增獎品表單" class="ui segment"
         src="https://docs.google.com/forms/d/e/1FAIpQLSfPC-JJJOaR8dMcbSJqO03xcDDnIgWok56eQoqXG5mm3-PH7A/viewform?embedded=true"
-        width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0">載入中…</iframe>
+        frameborder="0" scrolling="no" style=" width: 100%; height: 500px;  overflow: hidden;">載入中…</iframe>
     </div>
 
     <!-- 抽獎結果分頁 -->
     <div class="pusher" id="抽獎結果分頁" style="display:none">
-      <div id="content" class="ui segment">
+      <div class="ui segment">
 
 
       </div>
     </div>
   </div>
-
 
   <!-- 至頂按鈕 -->
   <div id="至頂按鈕" class="cursor_pointer circular massive ui negative icon button" data-tooltip="回到最上面"
@@ -256,373 +294,295 @@
   </div>
   <iframe name="formResponse" sandbox="allow-scripts allow-same-origin" tabindex="-1" aria-hidden="true"
     frame-border="0"></iframe>
-</body>
+  <script>//宣穎
+    "use strict";
+    $(document).ready(function () {
+      $('#search-select').dropdown();
+      $('#search-select-rwd').dropdown();
+      $('#開啟導覽').hide();
 
-<style>
-  #content {
-    height: 100vh;
-  }
-
-  .ui.grid {
-    padding: 0 !important;
-  }
-
-  .pushable.segment {
-    margin: 0 !important;
-  }
-
-
-  .fade.button {
-    opacity: unset;
-  }
-
-  #選單說明按鈕 i img {
-    -webkit-border-radius: 50%;
-    border-radius: 50%;
-  }
-
-  iframe[name$="formResponse"] {
-    width: 1px;
-    height: 1px;
-    position: absolute;
-    top: -100px;
-    display: none;
-  }
-
-  i img {
-    height: 24px !important;
-  }
-
-  #載入提示 {
-    z-index: 100;
-  }
-
-  #狀態欄 {
-    white-space: pre-wrap;
-    font-size: large;
-  }
-
-  .ui.modal p {
-    white-space: unset !important;
-  }
-
-  .ui.modal,
-  #說明視窗.ui.modal {
-    top: unset !important;
-    left: unset !important;
-  }
-
-  .ui.inverted.footer.text.menu {
-    background-color: #1b1c1d !important;
-  }
-
-  .ui.footer.menu img {
-    height: 100% !important;
-    width: 100% !important;
-  }
-
-  /* from https://www.w3schools.com/howto/howto_js_scroll_to_top.asp */
-  #至頂按鈕 {
-    display: none;
-    /* Hidden by default */
-    position: fixed;
-    /* Fixed/sticky position */
-    bottom: 70px;
-    /* Place the button at the bottom of the page */
-    right: 30px;
-    /* Place the button 30px from the right */
-    z-index: 100;
-    /* Make sure it does not overlap */
-  }
-
-  /* from https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_hide_scrollbar_keep_func */
-  .ui.inverted.segment {
-    overflow-y: scroll;
-    /* Add the ability to scroll */
-  }
-
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  .ui.inverted.segment::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Hide scrollbar for IE, Edge and Firefox */
-  .ui.inverted.segment {
-    -ms-overflow-style: none;
-    /* IE and Edge */
-    scrollbar-width: none;
-    /* Firefox */
-  }
-
-  #開啟導覽 {
-    display: flex;
-    position: absolute;
-    top: 1em;
-    right: 3em;
-  }
-
-
-  @media (max-width: 767px) {
-    .mobilehide {
-      display: none !important;
+      $('#關閉導覽').on('click', function () {
+        $('#導覽列').transition('fade down');
+        $('#開啟導覽').show();
+      })
+      $('#開啟導覽').on('click', function () {
+        $('#導覽列').transition('fade up');
+        $('#開啟導覽').css('display', 'none');
+      })
+      $('.ui.sidebar').sidebar({
+        context: $('.ui.pushable.segment'),
+        transition: 'overlay',
+      }).sidebar('attach events', '#mobile_item');
+    })
+    function edit_students() {
+      var position = document.getElementById("新增同學表單");
+      position.scrollIntoView();
     }
-  }
-</style>
+    function edit_gift() {
+      var position = document.getElementById("新增獎品表單");
+      position.scrollIntoView();
+    }
 
-<script>//宣穎
-  "use strict";
-  $(document).ready(function () {
-    $('#search-select').dropdown();
-    $('#search-select-rwd').dropdown();
-    $('#開啟導覽').hide();
+    const 靜音切換按鈕 = document.getElementById("靜音切換按鈕");
 
-    $('#關閉導覽').on('click', function () {
-      $('#導覽列').transition('fade down');
-      $('#開啟導覽').show();
-    })
-    $('#開啟導覽').on('click', function () {
-      $('#導覽列').transition('fade up');
-      $('#開啟導覽').css('display', 'none');
-    })
-    $('.ui.sidebar').sidebar({
-      context: $('.ui.pushable.segment'),
-      transition: 'overlay',
-    }).sidebar('attach events', '#mobile_item');
-  })
-</script>
+    function 靜音切換() {
+      switch (靜音狀態) {
+        default:
+        case 0: 靜音狀態 = 1;
+          靜音切換按鈕.innerHTML = `<i class="fa fa-volume-down"></i>`;
+          靜音切換按鈕.setAttribute("data-tooltip", "僅點選音效");
+          正解音效.muted = 錯題音效.muted = 點擊音效.muted = false;
+          return 1;
+        case 1: 靜音狀態 = 2;
+          靜音切換按鈕.innerHTML = `<i class="fa fa-volume-up"></i>`;
+          靜音切換按鈕.setAttribute("data-tooltip", "播放背景音樂");
+          目前背景音樂.muted = false;
+          目前背景音樂.play();
+          return 2;
+        case 2: 靜音狀態 = 0;
+          靜音切換按鈕.innerHTML = `<i class="fa fa-volume-mute"></i>`;
+          靜音切換按鈕.setAttribute("data-tooltip", "靜音");
+          正解音效.muted = 錯題音效.muted = 點擊音效.muted = true;
+          目前背景音樂.muted = true;
+          return 0;
+      }
+    }
 
-<script>//維傑
-  'use strict';
-  const 頁面 = ['使用說明', '抽獎系統', '編輯資料', '抽獎結果'];
-  function 切換分頁(啥 = '') {
+  </script>
+
+  <script>//維傑
+    'use strict';
+    const 頁面 = ['使用說明', '抽獎系統', '編輯資料', '抽獎結果'];
+    function 切換分頁(啥 = '') {
+      for (const 啥 of 頁面) {
+        $(`#${啥}分頁`).hide();
+        $(`#${啥}頁籤`).removeClass('active');
+        $(`#${啥}頁籤rwd`).removeClass('active');
+      }
+      $(`#${啥}分頁`).show();
+      $(`#${啥}頁籤`).addClass('active');
+      $(`#${啥}頁籤rwd`).addClass('active');
+    }
     for (const 啥 of 頁面) {
-      $(`#${啥}分頁`).hide();
-      $(`#${啥}頁籤`).removeClass('active');
-      $(`#${啥}頁籤rwd`).removeClass('active');
+      $(`#${啥}頁籤`).click(ev => 切換分頁(啥));
+      $(`#${啥}頁籤rwd`).click(ev => 切換分頁(啥));
     }
-    $(`#${啥}分頁`).show();
-    $(`#${啥}頁籤`).addClass('active');
-    $(`#${啥}頁籤rwd`).addClass('active');
-  }
-  for (const 啥 of 頁面) {
-    $(`#${啥}頁籤`).click(ev => 切換分頁(啥));
-    $(`#${啥}頁籤rwd`).click(ev => 切換分頁(啥));
-  }
 
-  var 暫存資料庫 = [], 題庫 = [], 目前抽取 = [], 登入狀態, 正確答案;
+    var 暫存資料庫 = [], 題庫 = [], 目前抽取 = [], 登入狀態, 正確答案;
 
-  const 使用者名稱 = document.getElementById('使用者名稱'),
-    選單說明按鈕 = document.getElementById('選單說明按鈕'),
-    登入按鈕區塊 = document.getElementById('登入按鈕區塊'),
-    使用者名稱rwd = document.getElementById('使用者名稱rwd'),
-    選單說明按鈕rwd = document.getElementById('選單說明按鈕rwd'),
-    登入按鈕區塊rwd = document.getElementById('登入按鈕區塊rwd'),
-    登入按鈕 = document.getElementById('登入按鈕'),
-    登出按鈕 = document.getElementById('登出按鈕'),
-    載入按鈕 = document.getElementById('載入按鈕'),
-    登入按鈕rwd = document.getElementById('登入按鈕rwd'),
-    登出按鈕rwd = document.getElementById('登出按鈕rwd'),
-    載入按鈕rwd = document.getElementById('載入按鈕rwd'),
-    載入提示 = document.getElementById('載入提示'),
-    至頂按鈕 = document.getElementById('至頂按鈕'),
-    狀態欄 = document.getElementById('狀態欄'),
-    錯誤訊息視窗 = document.getElementById('錯誤訊息視窗'),
-    錯誤訊息視窗內文 = document.getElementById('錯誤訊息視窗內文'),
-    錯誤訊息視窗登入按鈕 = document.getElementById('錯誤訊息視窗登入按鈕');
+    const 使用者名稱 = document.getElementById('使用者名稱'),
+      選單說明按鈕 = document.getElementById('選單說明按鈕'),
+      登入按鈕區塊 = document.getElementById('登入按鈕區塊'),
+      使用者名稱rwd = document.getElementById('使用者名稱rwd'),
+      選單說明按鈕rwd = document.getElementById('選單說明按鈕rwd'),
+      登入按鈕區塊rwd = document.getElementById('登入按鈕區塊rwd'),
+      登入按鈕 = document.getElementById('登入按鈕'),
+      登出按鈕 = document.getElementById('登出按鈕'),
+      載入按鈕 = document.getElementById('載入按鈕'),
+      登入按鈕rwd = document.getElementById('登入按鈕rwd'),
+      登出按鈕rwd = document.getElementById('登出按鈕rwd'),
+      載入按鈕rwd = document.getElementById('載入按鈕rwd'),
+      載入提示 = document.getElementById('載入提示'),
+      至頂按鈕 = document.getElementById('至頂按鈕'),
+      狀態欄 = document.getElementById('狀態欄'),
+      錯誤訊息視窗 = document.getElementById('錯誤訊息視窗'),
+      錯誤訊息視窗內文 = document.getElementById('錯誤訊息視窗內文'),
+      錯誤訊息視窗登入按鈕 = document.getElementById('錯誤訊息視窗登入按鈕');
 
-  // From https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep
-  const sleep = (ms = 0) => new Promise(r => setTimeout(r, ms));
+    // From https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep
+    const sleep = (ms = 0) => new Promise(r => setTimeout(r, ms));
 
-  /** From https://developers.google.com/sheets/api/quickstart/js  
-   *  Called when the signed in status changes, to update the UI
-   *  appropriately. After a sign-in, the API is called.
-   */
-  function 更新登入狀態(isSignedIn = Boolean(gapi.auth2.getAuthInstance().isSignedIn.get()), 只是看看 = false) {
-    載入按鈕.style.display = 'none';
-    載入按鈕rwd.style.display = 'none';
-    if (isSignedIn) {
-      登入按鈕.style.display = 'none';
-      登入按鈕rwd.style.display = 'none';
-      登出按鈕.style.display = 'block';
-      登出按鈕rwd.style.display = 'block';
-      if (只是看看) return isSignedIn;
-      重載資料庫();
-    } else {
-      登入按鈕.style.display = 'block';
-      登入按鈕rwd.style.display = 'block';
-      登出按鈕.style.display = 'none';
-      登出按鈕rwd.style.display = 'none';
+    /** From https://developers.google.com/sheets/api/quickstart/js  
+     *  Called when the signed in status changes, to update the UI
+     *  appropriately. After a sign-in, the API is called.
+     */
+    function 更新登入狀態(isSignedIn = Boolean(gapi.auth2.getAuthInstance().isSignedIn.get()), 只是看看 = false) {
+      載入按鈕.style.display = 'none';
+      載入按鈕rwd.style.display = 'none';
+      if (isSignedIn) {
+        登入按鈕.style.display = 'none';
+        登入按鈕rwd.style.display = 'none';
+        登出按鈕.style.display = 'block';
+        登出按鈕rwd.style.display = 'block';
+        if (只是看看) return isSignedIn;
+        重載資料庫();
+      } else {
+        登入按鈕.style.display = 'block';
+        登入按鈕rwd.style.display = 'block';
+        登出按鈕.style.display = 'none';
+        登出按鈕rwd.style.display = 'none';
+      }
+      // From https://developers.google.com/identity/sign-in/web/people
+      if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
+        const profile = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile();
+        使用者名稱.innerHTML = profile.getName();
+        使用者名稱rwd.innerHTML = profile.getName();
+        選單說明按鈕.innerHTML = `<i><img src="${profile.getImageUrl()}"></i>`;
+        選單說明按鈕rwd.innerHTML = `<i><img src="${profile.getImageUrl()}"></i>`;
+        登入按鈕區塊.setAttribute("data-tooltip", "已登入 " + profile.getEmail());
+        登入按鈕區塊rwd.setAttribute("data-tooltip", "已登入 " + profile.getEmail());
+      } else {
+        使用者名稱.innerHTML = "登出";
+        使用者名稱rwd.innerHTML = "登出";
+        選單說明按鈕.innerHTML = `<i class="fa fa-question-circle"></i>`;
+        選單說明按鈕rwd.innerHTML = `<i class="fa fa-question-circle"></i>`;
+        登入按鈕區塊.setAttribute("data-tooltip", "登入 Google 帳號 以存取試算表");
+        登入按鈕區塊rwd.setAttribute("data-tooltip", "登入 Google 帳號 以存取試算表");
+      }
+      return isSignedIn;
     }
-    // From https://developers.google.com/identity/sign-in/web/people
-    if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
-      const profile = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile();
-      使用者名稱.innerHTML = profile.getName();
-      使用者名稱rwd.innerHTML = profile.getName();
-      選單說明按鈕.innerHTML = `<i><img src="${profile.getImageUrl()}"></i>`;
-      選單說明按鈕rwd.innerHTML = `<i><img src="${profile.getImageUrl()}"></i>`;
-      登入按鈕區塊.setAttribute("data-tooltip", "已登入 " + profile.getEmail());
-      登入按鈕區塊rwd.setAttribute("data-tooltip", "已登入 " + profile.getEmail());
-    } else {
-      使用者名稱.innerHTML = "登出";
-      使用者名稱rwd.innerHTML = "登出";
-      選單說明按鈕.innerHTML = `<i class="fa fa-question-circle"></i>`;
-      選單說明按鈕rwd.innerHTML = `<i class="fa fa-question-circle"></i>`;
-      登入按鈕區塊.setAttribute("data-tooltip", "登入 Google 帳號 以存取試算表");
-      登入按鈕區塊rwd.setAttribute("data-tooltip", "登入 Google 帳號 以存取試算表");
+
+    // From https://stackoverflow.com/a/12646864/13189986
+    function 打亂陣列(陣列 = []) {
+      for (let i = 陣列.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [陣列[i], 陣列[j]] = [陣列[j], 陣列[i]];
+      }
+      return 陣列;
     }
-    return isSignedIn;
-  }
 
-  // From https://stackoverflow.com/a/12646864/13189986
-  function 打亂陣列(陣列 = []) {
-    for (let i = 陣列.length - 1; i > 0; i--) {
-      let j = Math.floor(Math.random() * (i + 1));
-      [陣列[i], 陣列[j]] = [陣列[j], 陣列[i]];
-    }
-    return 陣列;
-  }
-
-  function 抽獎() {
-    載入提示.style.display = 'flex';
-    if (暫存資料庫.length < 1 && !更新登入狀態()) 登入();
-    目前抽取 = 暫存資料庫.pop();
-    // 輸入框[0].value = 輸入框[0].innerHTML = 目前抽取[0];
-    正確答案 = String(目前抽取[1]);
-    目前抽取 = 打亂陣列(目前抽取.slice(1));
-    // for (const 元素 of 輸入框.slice(1))
-    //   元素.value = 元素.innerHTML = 目前抽取.pop();
-    // for (const i in 輸入框) 目前抽取[i] = 輸入框[i].innerHTML;
-    載入提示.style.display = 'none';
-  }
-
-  // From https://developers.google.com/sheets/api/quickstart/js
-  function 狀態欄續寫(訊息 = '') {
-    狀態欄.appendChild(document.createTextNode(訊息 + '\n'));
-    return 訊息;
-  }
-
-  function 重設狀態欄(訊息 = `👉共載入${題庫.length}筆(新到舊)`) {
-    狀態欄.innerHTML = 訊息 + '\n';
-    return 訊息;
-  }
-
-  function 彈出錯誤訊息(訊息 = '') {
-    重設狀態欄('⚠️錯誤訊息');
-    狀態欄續寫(訊息);
-    錯誤訊息視窗內文.innerHTML = 訊息;
-    $('#錯誤訊息視窗').modal('show');
-    錯誤訊息視窗.style.left = 'unset';
-    return 訊息;
-  }
-
-  // From https://developers.google.com/sheets/api/quickstart/js
-  async function 重載資料庫() {
-    載入提示.style.display = 'flex';
-    重設狀態欄();
-    gapi.client.sheets.spreadsheets.values.get({
-      spreadsheetId: '1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw',
-      range: '同學資料!B2:F',
-    }).then(function (response) {
+    function 抽獎() {
       載入提示.style.display = 'flex';
-      var range = response.result;
-      if (range.values.length > 0) {
-        題庫 = 暫存資料庫 = range.values;
-        重設狀態欄();
-        題庫.reverse();
-        const 欄位標題 = ['科系', '姓名', '學號', '電話', '座位'];
-        for (const row of 題庫) {
-          for (const i in 欄位標題)
-            狀態欄續寫('\n' + 欄位標題[i] + ': ' + row[i]);
-          狀態欄續寫('\n');
-        }
-        打亂陣列(暫存資料庫);
-        抽獎();
-      } else 彈出錯誤訊息('No data found.');
-    }, 回應 => 彈出錯誤訊息('Error: ' + 回應.result.error.message));
-  }
-
-  async function 登入() {
-    載入提示.style.display = 'flex';
-    載入按鈕.style.display = 'block';
-    登入按鈕.style.display = 'none';
-    載入按鈕rwd.style.display = 'block';
-    登入按鈕rwd.style.display = 'none';
-    if (gapi.auth2.getAuthInstance().isSignedIn.get())
-      gapi.auth2.getAuthInstance().signOut();
-    try {
-      await new Promise(r => gapi.auth2.getAuthInstance().signIn());
-    } catch (e) { // TO-DO
-      console.log(e);
+      if (暫存資料庫.length < 1 && !更新登入狀態()) 登入();
+      目前抽取 = 暫存資料庫.pop();
+      // 輸入框[0].value = 輸入框[0].innerHTML = 目前抽取[0];
+      正確答案 = String(目前抽取[1]);
+      目前抽取 = 打亂陣列(目前抽取.slice(1));
+      // for (const 元素 of 輸入框.slice(1))
+      //   元素.value = 元素.innerHTML = 目前抽取.pop();
+      // for (const i in 輸入框) 目前抽取[i] = 輸入框[i].innerHTML;
+      載入提示.style.display = 'none';
     }
-    gapi.auth2.getAuthInstance().isSignedIn.listen(更新登入狀態);
-    更新登入狀態();
-  }
 
-  // EventListener
-  登入按鈕.onclick = 登入按鈕rwd.onclick = 錯誤訊息視窗登入按鈕.onclick = 登入;
-
-  登出按鈕.onclick = 登出按鈕rwd.onclick = e => {
-    重設狀態欄('您已登出');
-    載入按鈕.style.display = 'block';
-    暫存資料庫 = 題庫 = 目前抽取 = 正確答案 = [];
-    gapi.auth2.getAuthInstance().signOut();
-    // From https://stackoverflow.com/questions/179355/clearing-all-cookies-with-javascript
-    for (const cookie of document.cookie.split(";")) { // Clearing all cookies
-      const eqPos = cookie.indexOf("=");
-      const name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
-      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    // From https://developers.google.com/sheets/api/quickstart/js
+    function 狀態欄續寫(訊息 = '') {
+      狀態欄.appendChild(document.createTextNode(訊息 + '\n'));
+      return 訊息;
     }
-    更新登入狀態(false);
-  };
 
-  載入按鈕.onclick = 載入按鈕rwd.onclick = 載入提示.onclick = e => {
-    if (更新登入狀態()) 重載資料庫();
-  };
-
-  // When the user clicks on the button, scroll to the top of the document
-  至頂按鈕.onclick = e => {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-  };
-
-  onfocus = e => 更新登入狀態(gapi.auth2.getAuthInstance().isSignedIn.get(), true);
-  onblur = e => {
-    登入按鈕.style.display = 登出按鈕.style.display =
-      登入按鈕rwd.style.display = 登出按鈕rwd.style.display = 'none';
-    載入按鈕.style.display = 載入按鈕rwd.style.display = 'block';
-  }
-  // from https://www.w3schools.com/howto/howto_js_scroll_to_top.asp
-  // When the user scrolls down 20px from the top of the document, show the button
-  onscroll = e => {
-    if (document.body.scrollTop > innerHeight
-      || document.documentElement.scrollTop > innerHeight) {
-      至頂按鈕.style.display = "block";
-    } else {
-      至頂按鈕.style.display = "none";
+    function 重設狀態欄(訊息 = `👉共載入${題庫.length}筆(新到舊)`) {
+      狀態欄.innerHTML = 訊息 + '\n';
+      return 訊息;
     }
-  };
 
-  // 取出試算表資料-
-  // From https://developers.google.com/sheets/api/quickstart/js
-  // On load, called to load the auth2 library and API client library.
-  gapi.load('client:auth2', e => {
-    // Initializes the API client library and sets up sign-in state listeners.
-    gapi.client.init({
-      // Client ID and API key from the Developer Console
-      clientId: '289902636224-oro06s681gdgk1kqrv8o1oca2shocfr4.apps.googleusercontent.com',
-      apiKey: 'AIzaSyCRfe3-dnm9GGMH_PFm9m5WHBMb_8U9HXY',
-      /**Array of API discovery doc URLs for APIs used by the quickstart */
-      discoveryDocs: ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
-      /**Authorization scopes required by the API; multiple scopes can be
-       * included, separated by spaces. */
-      scope: "https://www.googleapis.com/auth/spreadsheets.readonly"
-    }).then(e => {
-      // Listen for sign-in state changes.
+    function 彈出錯誤訊息(訊息 = '') {
+      重設狀態欄('⚠️錯誤訊息');
+      狀態欄續寫(訊息);
+      錯誤訊息視窗內文.innerHTML = 訊息;
+      $('#錯誤訊息視窗').modal('show');
+      錯誤訊息視窗.style.left = 'unset';
+      return 訊息;
+    }
+
+    // From https://developers.google.com/sheets/api/quickstart/js
+    async function 重載資料庫() {
+      載入提示.style.display = 'flex';
+      重設狀態欄();
+      gapi.client.sheets.spreadsheets.values.get({
+        spreadsheetId: '1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw',
+        range: '同學資料!B2:F',
+      }).then(function (response) {
+        載入提示.style.display = 'flex';
+        var range = response.result;
+        if (range.values.length > 0) {
+          題庫 = 暫存資料庫 = range.values;
+          重設狀態欄();
+          題庫.reverse();
+          const 欄位標題 = ['科系', '姓名', '學號', '電話', '座位'];
+          for (const row of 題庫) {
+            for (const i in 欄位標題)
+              狀態欄續寫('\n' + 欄位標題[i] + ': ' + row[i]);
+            狀態欄續寫('\n');
+          }
+          打亂陣列(暫存資料庫);
+          抽獎();
+        } else 彈出錯誤訊息('No data found.');
+      }, 回應 => 彈出錯誤訊息('Error: ' + 回應.result.error.message));
+    }
+
+    async function 登入() {
+      載入提示.style.display = 'flex';
+      載入按鈕.style.display = 'block';
+      登入按鈕.style.display = 'none';
+      載入按鈕rwd.style.display = 'block';
+      登入按鈕rwd.style.display = 'none';
+      if (gapi.auth2.getAuthInstance().isSignedIn.get())
+        gapi.auth2.getAuthInstance().signOut();
+      try {
+        await new Promise(r => gapi.auth2.getAuthInstance().signIn());
+      } catch (e) { // TO-DO
+        console.log(e);
+      }
       gapi.auth2.getAuthInstance().isSignedIn.listen(更新登入狀態);
-      // Handle the initial sign-in state.
-      if (!更新登入狀態()) 登入();
-    }, 錯誤 => 彈出錯誤訊息(JSON.stringify(錯誤, null, 2)));
-  });
-</script>
+      更新登入狀態();
+    }
+
+    // EventListener
+    登入按鈕.onclick = 登入按鈕rwd.onclick = 錯誤訊息視窗登入按鈕.onclick = 登入;
+
+    登出按鈕.onclick = 登出按鈕rwd.onclick = e => {
+      重設狀態欄('您已登出');
+      載入按鈕.style.display = 'block';
+      暫存資料庫 = 題庫 = 目前抽取 = 正確答案 = [];
+      gapi.auth2.getAuthInstance().signOut();
+      // From https://stackoverflow.com/questions/179355/clearing-all-cookies-with-javascript
+      for (const cookie of document.cookie.split(";")) { // Clearing all cookies
+        const eqPos = cookie.indexOf("=");
+        const name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      }
+      更新登入狀態(false);
+    };
+
+    載入按鈕.onclick = 載入按鈕rwd.onclick = 載入提示.onclick = e => {
+      if (更新登入狀態()) 重載資料庫();
+    };
+
+    // When the user clicks on the button, scroll to the top of the document
+    至頂按鈕.onclick = e => {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    };
+
+    onfocus = e => 更新登入狀態(gapi.auth2.getAuthInstance().isSignedIn.get(), true);
+    onblur = e => {
+      登入按鈕.style.display = 登出按鈕.style.display =
+        登入按鈕rwd.style.display = 登出按鈕rwd.style.display = 'none';
+      載入按鈕.style.display = 載入按鈕rwd.style.display = 'block';
+    }
+    // from https://www.w3schools.com/howto/howto_js_scroll_to_top.asp
+    // When the user scrolls down 20px from the top of the document, show the button
+    onscroll = e => {
+      if (document.body.scrollTop > innerHeight
+        || document.documentElement.scrollTop > innerHeight) {
+        至頂按鈕.style.display = "block";
+      } else {
+        至頂按鈕.style.display = "none";
+      }
+    };
+
+    // 取出試算表資料-
+    // From https://developers.google.com/sheets/api/quickstart/js
+    // On load, called to load the auth2 library and API client library.
+    gapi.load('client:auth2', e => {
+      // Initializes the API client library and sets up sign-in state listeners.
+      gapi.client.init({
+        // Client ID and API key from the Developer Console
+        clientId: '289902636224-oro06s681gdgk1kqrv8o1oca2shocfr4.apps.googleusercontent.com',
+        apiKey: 'AIzaSyCRfe3-dnm9GGMH_PFm9m5WHBMb_8U9HXY',
+        /**Array of API discovery doc URLs for APIs used by the quickstart */
+        discoveryDocs: ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
+        /**Authorization scopes required by the API; multiple scopes can be
+         * included, separated by spaces. */
+        scope: "https://www.googleapis.com/auth/spreadsheets.readonly"
+      }).then(e => {
+        // Listen for sign-in state changes.
+        gapi.auth2.getAuthInstance().isSignedIn.listen(更新登入狀態);
+        // Handle the initial sign-in state.
+        if (!更新登入狀態()) 登入();
+      }, 錯誤 => 彈出錯誤訊息(JSON.stringify(錯誤, null, 2)));
+    });
+  </script>
+</body>
 
 </html>

@@ -1,0 +1,161 @@
+.logo {
+    width: 100px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+
+/* section start*/
+.section {
+    width: 100%;
+    height: 100vh;
+}
+
+#slide {
+    background-image: url('../img/start.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+#slide_bg {
+    background-image: url('../img/bg.gif');
+    background-size: cover;
+    background-position: center;
+}
+
+
+.upper {
+    padding-top: 36vh;
+}
+
+/* 獎品圖片輪播 */
+.lower p {
+    color: white;
+    font-size: 36px;
+    font-weight: 600;
+    letter-spacing: 2;
+    font-family: 'Noto Sans Traditional Chinese', sans-serif;
+    position: relative;
+}
+
+.lower {
+    position: absolute;
+    top: 12.5%;
+    margin-left: auto;
+    margin-right: auto;
+    left: 20px;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center
+}
+
+.custom-swiper-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.swiper {
+    width: 400px;
+    height: 300px;
+    margin-bottom: 60px;
+}
+
+.swiper-slide {
+    overflow: hidden;
+}
+
+.img_shadow {
+    box-shadow: 0px 18px 10px rgba(54, 53, 53, 0.308) !important;
+}
+
+/*更換獎品箭頭 */
+.swiper-button-custom-prev,
+.swiper-button-custom-next {
+    padding: 1em;
+    cursor: pointer;
+    color: white;
+    opacity: 0.4;
+    transition: 0.1s;
+    user-select: none;
+}
+
+.swiper-button-custom-prev:hover,
+.swiper-button-custom-next:hover {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+/* section end */
+
+/* RWD start*/
+@media screen and (max-width:990px) {
+    .logo_rwd {
+        position: absolute;
+        left: auto;
+        right: 20px;
+    }
+
+    .navbar {
+        background-color: white;
+    }
+
+    .nav2 {
+        position: relative;
+        top: 0px;
+        right: auto;
+    }
+
+    #menu .active a {
+        color: rgba(0, 0, 0, .7) !important;
+        border-bottom: 1.5px solid rgba(0, 0, 0, .7) !important;
+        width: 75px;
+    }
+
+    #menu .active {
+        color: rgba(0, 0, 0, .7) !important;
+        background: none !important;
+    }
+
+}
+
+@media screen and (max-width:768px) {
+
+    .lower .index_btn1,
+    .lower .index_btn2 {
+        display: none;
+    }
+
+    .lower .action_btn1_rwd {
+        font-size: 12px;
+        text-decoration: none;
+        color: white;
+        background: rgba(23, 26, 32, 0.8);
+        padding: 12px 92px;
+        border-radius: 50px;
+        margin: 0px 7%;
+    }
+
+    .lower .action_btn2_rwd {
+        font-size: 12px;
+        text-decoration: none;
+        color: #393c41;
+        background: rgba(244, 244, 244, 0.65);
+        padding: 12px 90px;
+        border-radius: 50px;
+        margin: 0px 7%;
+        margin-top: 16px;
+    }
+
+    .lower .action_btn1_rwd,
+    .lower .action_btn2_rwd {
+        display: block;
+        visibility: hidden;
+    }
+
+}
+
+/* RWD end */

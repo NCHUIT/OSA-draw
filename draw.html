@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/draw.css">
+    <!-- google api -->
+    <script src="https://apis.google.com/js/api.js"></script>
+    <!-- Swiper -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+</head>
+
+<body>
+    <!-- <div>
+        <section class="section" id="slide">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="upper text-center">
+                            <img src="./img/icon.png" width="400px">
+                            <P>抽獎系統</P>
+                        </div>
+                        <div class="text-center">
+                            <a class="button button-circle button-caution" style="color:white ;">開始</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div> -->
+    <div>
+        <section class="section" id="slide_bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- 獎品圖片 -->
+                        <div class="lower">
+                            <div class="custom-swiper-wrapper">
+                                <!-- 箭頭prev -->
+                                <div class="swiper-button-custom-prev"><svg xmlns="http://www.w3.org/2000/svg"
+                                        width="40" height="40" viewBox="0 0 24 24" transform="rotate(180)">
+                                        <path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z" />
+                                    </svg>
+                                </div>
+                                <div class="swiper">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide">
+                                            <div class="swiper-zoom-container">
+                                                <img class="img_shadow" src="img/messageImage_1652455824541.jpg">
+                                            </div>
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <div class="swiper-zoom-container">
+                                                <img class="img_shadow" src="img/messageImage_1652455855015.jpg">
+                                            </div>
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <div class="swiper-zoom-container">
+                                                <img class="img_shadow" src="img/messageImage_1652455864115.jpg">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 箭頭next -->
+                                <div class="swiper-button-custom-next"><svg xmlns="http://www.w3.org/2000/svg"
+                                        width="40" height="40" viewBox="0 0 24 24" transform="rotate(0)">
+                                        <path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <!-- 獎品名稱 &數量-->
+                            <div>
+                                <p>獎品名稱/數量</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </section>
+    </div>
+
+    <script>
+        const swiper = new Swiper(".swiper", {
+            loop: true,
+            zoom: true,
+            navigation: {
+                nextEl: ".swiper-button-custom-next",
+                prevEl: ".swiper-button-custom-prev"
+            }
+        });
+        // 取試算表資料
+        fetch('https://sheets.googleapis.com/v4/spreadsheets/1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw/values/獎品資料?alt=json&key=AIzaSyCRfe3-dnm9GGMH_PFm9m5WHBMb_8U9HXY')
+            .then(res => res.json())
+            .then(res => {
+                console.log(res)
+            })
+
+    </script>
+
+</body>
+
+</html>
