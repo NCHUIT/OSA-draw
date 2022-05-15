@@ -97,7 +97,7 @@
               data-position="bottom right">
               <i class="fa fa-volume-off"></i>
             </div>
-            <div id="audio_container" class="pgo-style-audios-29lfQn">
+            <div id="audio_container">
               <audio type="audio/mpeg" controlslist="nodownload" id="map_background_music" loop
                 src="">你的瀏覽器不支援音訊</audio>
               <audio type="audio/mpeg" controlslist="nodownload" id="fight_background_music" loop
@@ -108,12 +108,10 @@
               <audio type="audio/mpeg" controlslist="nodownload" id="panel_btn_click_sound_effect"
                 src="">你的瀏覽器不支援音訊</audio>
             </div>
-            <div id="選單說明按鈕" style="cursor: pointer;" class="item ui header" data-tooltip="使用者"
-              data-position="bottom center">
+            <div id="使用者頭像" class="item ui header" data-tooltip="尚未登入" data-position="bottom center">
               <i class="fa fa-question-circle"></i>
             </div>
-            <div id="登入按鈕區塊" style="cursor: pointer;" class="icon item" data-tooltip="登入 Google 帳號 以存取試算表"
-              data-position="bottom center">
+            <div id="登入按鈕區塊" class="icon item" data-tooltip="登入 Google 帳號 以存取試算表" data-position="bottom center">
               <div id="登入按鈕" class="positive ui button" style="display:none">登入</div>
               <div id="登出按鈕" class="google plus ui button compact fade animated Inverted" style="display:none">
                 <div class="visible content"><span id="使用者名稱"></span></div>
@@ -123,8 +121,8 @@
               </div>
               <div id="載入按鈕" class="ui loading button">載入</div>
             </div>
-            <div id="關閉導覽" class="icon item" style="cursor: pointer;" data-tooltip="收合設定欄" data-position="bottom right">
-              <i class="large window close outline icon" style="margin-right:20px;"></i>
+            <div id="關閉導覽" class="icon item" data-tooltip="收合設定欄" data-position="bottom right">
+              <i class="large window close outline icon"></i>
             </div>
           </div>
         </div>
@@ -139,12 +137,14 @@
       </div>
     </div>
   </div>
-  <div id="開啟導覽" class="ui vertical animated button mobilehide" style="width:60px;">
+
+  <div id="開啟導覽" class="ui vertical animated button mobilehide">
     <div class=" hidden content">設定</div>
     <div class="visible content">
       <i class="sliders horizontal icon"></i>
     </div>
   </div>
+
   <!-- 選單rwd -->
   <div class="ui pushable segment">
     <div class="ui sidebar vertical menu">
@@ -187,25 +187,25 @@
           href="https://docs.google.com/spreadsheets/d/1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw">
           <i><img src="https://i.imgur.com/ky2ykVM.png"></i>
         </a>
-        <div id="選單說明按鈕rwd" style="cursor: pointer;" class="ui header item ">
+        <div id="使用者頭像rwd" class="ui header item ">
           <i class="fa fa-question-circle"></i>
         </div>
-        <div id="登入按鈕區塊rwd" style="cursor: pointer;" class="icon item">
+        <div id="登入按鈕區塊rwd" class="icon item">
           <div id="登入按鈕rwd" class="positive ui button" style="display:none">登入</div>
           <div id="登出按鈕rwd" class="google plus ui button compact fade animated Inverted" style="display:none">
-            <div class="visible content"><span id="使用者名稱rwd"></span></div>
+            <div class="visible content"><span id="使用者mailrwd"></span></div>
             <div class="hidden content">
               <h5>登出</h5>
             </div>
           </div>
-          <div id="載入按鈕rwd" class="massive ui loading button">載入</div>
+          <div id="載入按鈕rwd" class="ui loading button">載入</div>
         </div>
       </a>
     </div>
 
     <!-- 使用說明分頁 -->
     <div class="pusher" id="使用說明分頁" style="display:none">
-      <div id="content">
+      <div class="vh100">
         <!-- hackmd 使用說明-->
         <iframe id="說明" class="ui segment" frame-border="0" width="100%" height="100%"
           src="https://hackmd.io/@NCHUIT/ending-lottery">說明載入中...</iframe>
@@ -214,10 +214,8 @@
 
     <!-- 抽獎系統分頁 -->
     <div class="pusher" id="抽獎系統分頁">
-      <iframe frameborder="0" noresize="noresize"
-        style="position: absolute; background: transparent; width: 100%; height:100%;" src="draw.html" frameborder="0">
+      <iframe frameborder="0" noresize="noresize" src="draw.html" frameborder="0">
       </iframe>
-      <!-- <pre id="狀態欄" class="ui container">👉資料載入中…<br></pre> -->
     </div>
 
     <!-- 編輯資料分頁 -->
@@ -226,28 +224,24 @@
         <ul>
           <li>
             <h3>填寫新增資料表單</h3>
-            <button onclick="edit_students()" class="edit_btn"
-              style="background-color:rgba(54, 123, 245, 1); cursor: pointer;">新增同學名單</button>
-            <button id="edit_gift" onclick="edit_gift()" class="edit_btn"
-              style="background-color:rgba(243, 167, 46, 1);margin-left: 2em;cursor: pointer;">新增獎品資料</button>
+            <button id="edit_students" class="edit_btn">新增同學名單</button>
+            <button id="edit_gift" class="edit_btn">新增獎品資料</button>
           </li>
           <li>
             <h3>使用試算表新增/刪除資料</h3>
             <a class="icon item" target="_blank"
               href="https://docs.google.com/spreadsheets/d/1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw">
-              <img src="https://i.imgur.com/ky2ykVM.png" style="height: 40px;">
+              <img src="https://i.imgur.com/ky2ykVM.png">
             </a>
           </li>
         </ul>
       </div>
       <!-- google表單填寫-同學名單 -->
-      <iframe id="新增同學表單" class="ui segment"
-        src="https://docs.google.com/forms/d/e/1FAIpQLSfMexnj15dM3iVNx0CV5Jq46yBfB51AenZmMiWmPRjo-yIMeA/viewform?embedded=true"
-        frameborder="0" scrolling="no" style=" width: 100%; height: 1200px;  overflow: hidden;">載入中…</iframe>
+      <iframe id="新增同學表單" class="ui segment" frameborder="0" scrolling="no"
+        src="https://docs.google.com/forms/d/e/1FAIpQLSfMexnj15dM3iVNx0CV5Jq46yBfB51AenZmMiWmPRjo-yIMeA/viewform?embedded=true">載入中…</iframe>
       <!-- google表單填寫-獎品編輯 -->
-      <iframe id="新增獎品表單" class="ui segment"
-        src="https://docs.google.com/forms/d/e/1FAIpQLSfPC-JJJOaR8dMcbSJqO03xcDDnIgWok56eQoqXG5mm3-PH7A/viewform?embedded=true"
-        frameborder="0" scrolling="no" style=" width: 100%; height: 500px;  overflow: hidden;">載入中…</iframe>
+      <iframe id="新增獎品表單" class="ui segment" frameborder="0" scrolling="no"
+        src="https://docs.google.com/forms/d/e/1FAIpQLSfPC-JJJOaR8dMcbSJqO03xcDDnIgWok56eQoqXG5mm3-PH7A/viewform?embedded=true">載入中…</iframe>
     </div>
 
     <!-- 抽獎結果分頁 -->
@@ -258,6 +252,8 @@
       </div>
     </div>
   </div>
+
+  <pre id="狀態欄" class="ui container">👉資料載入中…<br></pre>
 
   <!-- 至頂按鈕 -->
   <div id="至頂按鈕" class="cursor_pointer circular massive ui negative icon button" data-tooltip="回到最上面"
@@ -281,6 +277,7 @@
       <div class="ui negative button">關閉</div>
     </div>
   </div>
+
   <!-- 載入畫面說明框 -->
   <div id="載入提示" class="ui active dimmer" style="display:none">
     <div class="ui massive text loader">
@@ -292,8 +289,10 @@
       並清除瀏覽器 Cookie
     </div>
   </div>
+
   <iframe name="formResponse" sandbox="allow-scripts allow-same-origin" tabindex="-1" aria-hidden="true"
     frame-border="0"></iframe>
+
   <script>//宣穎
     "use strict";
     $(document).ready(function () {
@@ -314,14 +313,14 @@
         transition: 'overlay',
       }).sidebar('attach events', '#mobile_item');
     })
-    function edit_students() {
+    $('#edit_students').on('click', function () {
       var position = document.getElementById("新增同學表單");
       position.scrollIntoView();
-    }
-    function edit_gift() {
+    })
+    $('#edit_gift').on('click', function () {
       var position = document.getElementById("新增獎品表單");
       position.scrollIntoView();
-    }
+    })
 
     const 靜音切換按鈕 = document.getElementById("靜音切換按鈕");
 
@@ -353,12 +352,12 @@
   <script>//維傑
     'use strict';
     const 頁面 = ['使用說明', '抽獎系統', '編輯資料', '抽獎結果'];
+    var 目前頁面 = '抽獎系統';
     function 切換分頁(啥 = '') {
-      for (const 啥 of 頁面) {
-        $(`#${啥}分頁`).hide();
-        $(`#${啥}頁籤`).removeClass('active');
-        $(`#${啥}頁籤rwd`).removeClass('active');
-      }
+      $(`#${目前頁面}分頁`).hide();
+      $(`#${目前頁面}頁籤`).removeClass('active');
+      $(`#${目前頁面}頁籤rwd`).removeClass('active');
+      目前頁面 = 啥;
       $(`#${啥}分頁`).show();
       $(`#${啥}頁籤`).addClass('active');
       $(`#${啥}頁籤rwd`).addClass('active');
@@ -368,14 +367,13 @@
       $(`#${啥}頁籤rwd`).click(ev => 切換分頁(啥));
     }
 
-    var 暫存資料庫 = [], 題庫 = [], 目前抽取 = [], 登入狀態, 正確答案;
+    var 暫存資料庫 = [], 資料庫 = [], 目前抽取 = [], 登入狀態, 正確答案;
 
     const 使用者名稱 = document.getElementById('使用者名稱'),
-      選單說明按鈕 = document.getElementById('選單說明按鈕'),
+      使用者頭像 = document.getElementById('使用者頭像'),
       登入按鈕區塊 = document.getElementById('登入按鈕區塊'),
-      使用者名稱rwd = document.getElementById('使用者名稱rwd'),
-      選單說明按鈕rwd = document.getElementById('選單說明按鈕rwd'),
-      登入按鈕區塊rwd = document.getElementById('登入按鈕區塊rwd'),
+      使用者頭像rwd = document.getElementById('使用者頭像rwd'),
+      使用者mailrwd = document.getElementById('使用者mailrwd'),
       登入按鈕 = document.getElementById('登入按鈕'),
       登出按鈕 = document.getElementById('登出按鈕'),
       載入按鈕 = document.getElementById('載入按鈕'),
@@ -415,19 +413,20 @@
       // From https://developers.google.com/identity/sign-in/web/people
       if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
         const profile = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile();
-        使用者名稱.innerHTML = profile.getName();
-        使用者名稱rwd.innerHTML = profile.getName();
-        選單說明按鈕.innerHTML = `<i><img src="${profile.getImageUrl()}"></i>`;
-        選單說明按鈕rwd.innerHTML = `<i><img src="${profile.getImageUrl()}"></i>`;
+        window.profile = profile;
+        使用者名稱.innerHTML = profile.getGivenName();
+        使用者頭像.innerHTML = `<i><img src="${profile.getImageUrl()}"></i>`;
+        使用者頭像rwd.innerHTML = `<i><img src="${profile.getImageUrl()}"></i><span>${profile.getGivenName()}</span>`;
+        使用者mailrwd.innerHTML = profile.getEmail();
+        使用者頭像.setAttribute("data-tooltip", profile.getEmail());
         登入按鈕區塊.setAttribute("data-tooltip", "已登入 " + profile.getEmail());
-        登入按鈕區塊rwd.setAttribute("data-tooltip", "已登入 " + profile.getEmail());
       } else {
         使用者名稱.innerHTML = "登出";
-        使用者名稱rwd.innerHTML = "登出";
-        選單說明按鈕.innerHTML = `<i class="fa fa-question-circle"></i>`;
-        選單說明按鈕rwd.innerHTML = `<i class="fa fa-question-circle"></i>`;
+        使用者頭像.innerHTML = `<i class="fa fa-question-circle"></i>`;
+        使用者頭像rwd.innerHTML = `<i class="fa fa-question-circle"></i><span>尚未登入</span>`;
+        使用者mailrwd.innerHTML = "尚未登入";
+        使用者頭像.setAttribute("data-tooltip", "尚未登入");
         登入按鈕區塊.setAttribute("data-tooltip", "登入 Google 帳號 以存取試算表");
-        登入按鈕區塊rwd.setAttribute("data-tooltip", "登入 Google 帳號 以存取試算表");
       }
       return isSignedIn;
     }
@@ -442,7 +441,6 @@
     }
 
     function 抽獎() {
-      載入提示.style.display = 'flex';
       if (暫存資料庫.length < 1 && !更新登入狀態()) 登入();
       目前抽取 = 暫存資料庫.pop();
       // 輸入框[0].value = 輸入框[0].innerHTML = 目前抽取[0];
@@ -451,7 +449,6 @@
       // for (const 元素 of 輸入框.slice(1))
       //   元素.value = 元素.innerHTML = 目前抽取.pop();
       // for (const i in 輸入框) 目前抽取[i] = 輸入框[i].innerHTML;
-      載入提示.style.display = 'none';
     }
 
     // From https://developers.google.com/sheets/api/quickstart/js
@@ -460,7 +457,7 @@
       return 訊息;
     }
 
-    function 重設狀態欄(訊息 = `👉共載入${題庫.length}筆(新到舊)`) {
+    function 重設狀態欄(訊息 = `👉共載入${資料庫.length}筆(新到舊)`) {
       狀態欄.innerHTML = 訊息 + '\n';
       return 訊息;
     }
@@ -483,20 +480,31 @@
         range: '同學資料!B2:F',
       }).then(function (response) {
         載入提示.style.display = 'flex';
-        var range = response.result;
+        var range = response.result; window.range = range; // 測試中
         if (range.values.length > 0) {
-          題庫 = 暫存資料庫 = range.values;
+          資料庫 = 暫存資料庫 = range.values;
           重設狀態欄();
-          題庫.reverse();
           const 欄位標題 = ['科系', '姓名', '學號', '電話', '座位'];
-          for (const row of 題庫) {
+          // var i = 0;
+          for (const row of 資料庫) {
+            /* if(i < 題庫.length && 題庫.slice(i+1).includes(row[0])){
+              題庫.splice(i, 1);
+              continue;
+            } i++; */
             for (const i in 欄位標題)
               狀態欄續寫('\n' + 欄位標題[i] + ': ' + row[i]);
             狀態欄續寫('\n');
           }
+          資料庫.reverse();
           打亂陣列(暫存資料庫);
-          抽獎();
-        } else 彈出錯誤訊息('No data found.');
+          // 取試算表資料
+          fetch('https://sheets.googleapis.com/v4/spreadsheets/1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw/values/獎品資料?alt=json&key=AIzaSyCRfe3-dnm9GGMH_PFm9m5WHBMb_8U9HXY')
+            .then(res => res.json())
+            .then(res => {
+              console.log(res);// 因為頁面未公開，故無法存取
+            })
+          載入提示.style.display = 'none';
+        } else 彈出錯誤訊息('查無資料');
       }, 回應 => 彈出錯誤訊息('Error: ' + 回應.result.error.message));
     }
 
@@ -523,7 +531,7 @@
     登出按鈕.onclick = 登出按鈕rwd.onclick = e => {
       重設狀態欄('您已登出');
       載入按鈕.style.display = 'block';
-      暫存資料庫 = 題庫 = 目前抽取 = 正確答案 = [];
+      暫存資料庫 = 資料庫 = 目前抽取 = 正確答案 = [];
       gapi.auth2.getAuthInstance().signOut();
       // From https://stackoverflow.com/questions/179355/clearing-all-cookies-with-javascript
       for (const cookie of document.cookie.split(";")) { // Clearing all cookies
