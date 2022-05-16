@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Sheets API Quickstart</title>
+  <meta charset="utf-8" />
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script src="https://accounts.google.com/gsi/client"></script>
+</head>
+
+<body>
+  <p>Sheets API Quickstart</p>
+
+  <script type="text/javascript">
+    // Add buttons to initiate auth sequence and sign out
+    const authorize_button = document.createElement('button'),
+      signout_button = document.createElement('button'),
+      refresh_button = document.createElement('button'),
+      content = document.createElement('pre');
+
+    authorize_button.innerHTML = 'Authorize';
+    signout_button.innerHTML = 'Sign Out';
+    refresh_button.innerHTML = 'Refresh';
+
+    content.style.whiteSpace = 'pre-wrap';
+
+    document.body.appendChild(authorize_button);
+    document.body.appendChild(signout_button);
+    document.body.appendChild(refresh_button);
+    document.body.appendChild(content);
+
+
+    // api.js is loaded.
+    gapi.load('client', async () => {
+      // Loads the discovery doc to initialize the API after the API client is loaded.
+      await gapi.client.init({
+        // Set to API key from the Developer Console
+        apiKey: 'AIzaSyCRfe3-dnm9GGMH_PFm9m5WHBMb_8U9HXY',
+        // Discovery doc URL for APIs used by the quickstart
+        discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
+      });
+    });
+
+    // Google Identity Services are loaded.
+    let tokenClient = google.accounts.oauth2.initTokenClient({
+      // Set to client ID from the Developer Console
+      client_id: '289902636224-oro06s681gdgk1kqrv8o1oca2shocfr4.apps.googleusercontent.com',
+      // Authorization scopes required by the API; multiple scopes can be included, separated by spaces.
+      scope: 'https://www.googleapis.com/auth/spreadsheets.readonly',
+      callback: '', // defined later
+    });
+
+    // Sign in the user upon button click.
+    authorize_button.onclick = onload = () => {
+      tokenClient.callback = async resp => {
+        if (resp.error !== undefined)
+          throw resp;
+        await listMajors();
+      };
+
+      if (gapi.client.getToken() === null) {
+        // Prompt the user to select a Google Account and ask for consent to share their data
+        // when establishing a new session.
+        tokenClient.requestAccessToken({ prompt: 'consent' });
+      } else {
+        // Skip display of account chooser and consent dialog for an existing session.
+        tokenClient.requestAccessToken({ prompt: '' });
+      }
+    }
+
+    // Sign out the user upon button click.
+    signout_button.onclick = () => {
+      const token = gapi.client.getToken();
+      if (token !== null) {
+        google.accounts.oauth2.revoke(token.access_token);
+        gapi.client.setToken('');
+        content.innerText = '';
+      }
+    }
+
+    /**
+     * Print the content of the spreadsheet:
+     * https://docs.google.com/spreadsheets/d/1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw
+     */
+    async function listMajors() {
+      let response;
+      try {
+        // Fetch first 10 files
+        response = await gapi.client.sheets.spreadsheets.values.get({
+          spreadsheetId: '1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw',
+          range: '同學資料!B2:F',
+        });
+      } catch (err) {
+        content.innerText = err.message;
+        return;
+      }
+      const range = response.result, rv = range.values;
+      if (!range || !rv || rv.length == 0) {
+        content.innerText = 'No values found.';
+        return;
+      }
+      for(let i=-1; ++i < rv.length-1;)
+        for(const s of rv.slice(i+1))
+          if(s[0] === rv[i][0]){
+            for(let j=0; ++j < 5;){
+              console.log(rv[i],s);
+              if(!s[j] && rv[i][j])
+                s[j] = rv[i][j];
+            }
+            rv.splice(i,1);
+            break;
+          }
+      // Flatten to string to display
+      content.innerText =
+        rv.reduce(
+          (str, row) => `${str}${row[0]}, ${row[1]}, ${row[2]}, ${row[3]}, ${row[4]}\n`,
+          '科系, 姓名, 學號, 電話, 座位\n'
+        );
+      window.seek = rv;
+      console.log(rv);
+    }
+    refresh_button.onclick = listMajors;
+
+  </script>
+</body>
+
+</html>

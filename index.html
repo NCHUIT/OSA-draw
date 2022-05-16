@@ -47,209 +47,129 @@
 </head>
 
 <body>
-  <!-- 導覽列 -->
-  <div class="ui grid" id="導覽列">
-    <div class="computer only row">
-      <div class="column">
-        <div class="ui top stackable compact menu tabular attached">
-          <a id="使用說明頁籤" class="icon item blue" data-tooltip="系統說明" data-position="bottom left">
-            <i class="fa fa-question circle outline
-                    " aria-hidden="true"></i>
-            <span>&nbsp;&nbsp;系統說明</span>
-          </a>
-          <a id="抽獎系統頁籤" class="icon item blue active" data-tooltip="開始抽獎" data-position="bottom left">
-            <i class="fa fa-ticket" aria-hidden="true"></i>
-            <span>&nbsp;&nbsp;抽獎系統</span>
-          </a>
-          <a id="編輯資料頁籤" class="icon item blue" data-tooltip="編輯資料" data-position="bottom left">
-            <i class="fa fa-edit " aria-hidden="true"></i>
-            <span>&nbsp;&nbsp;編輯資料</span>
-          </a>
-          <a id="抽獎結果頁籤" class="icon item blue" data-tooltip="抽獎結果" data-position="bottom left">
-            <i class="fa fa-file alternate" aria-hidden="true"></i>
-            <span>&nbsp;&nbsp;抽獎結果</span>
-          </a>
-          <a class="icon item" data-tooltip="獎品選單" data-position="bottom left">
-            <i class="fa fa-gift" aria-hidden="true"></i>
-            <span>&nbsp;&nbsp;
-              <select class="ui search dropdown" id="search-select">
-                <option value="">獎品選單</option>
-                <option value="AL">Alabama</option>
-                <option value="AK">Alaska</option>
-                <option value="AZ">Arizona</option>
-                <option value="AR">Arkansas</option>
-                <option value="CA">California</option>
-                <option value="CO">Colorado</option>
-                <option value="CT">Connecticut</option>
-                <option value="DE">Delaware</option>
-                <option value="DC">District Of Columbia</option>
-              </select>
-            </span>
-          </a>
-          <div class="right menu">
-            <!-- <a class="icon item" data-tooltip="Google 試算表" data-position="bottom center"
-              href="https://docs.google.com/spreadsheets/d/1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw"
-              target="_blank">
-              <i><img src="https://i.imgur.com/ky2ykVM.png"></i>
-            </a> -->
-            <!-- 聲音開啟/靜音 -->
-            <div id="靜音切換按鈕" class="cursor_pointer item ui header" data-tooltip="靜音/僅點選音效/播放背景音樂"
-              data-position="bottom right">
-              <i class="fa fa-volume-off"></i>
-            </div>
-            <div id="audio_container">
-              <audio type="audio/mpeg" controlslist="nodownload" id="map_background_music" loop
-                src="">你的瀏覽器不支援音訊</audio>
-              <audio type="audio/mpeg" controlslist="nodownload" id="fight_background_music" loop
-                src="">你的瀏覽器不支援音訊</audio>
-              <audio type="audio/mpeg" controlslist="nodownload" id="victory_sound_effect" src="">
-                你的瀏覽器不支援音訊</audio>
-              <audio type="audio/mpeg" controlslist="nodownload" id="keep_going_sound_effect" src="">你的瀏覽器不支援音訊</audio>
-              <audio type="audio/mpeg" controlslist="nodownload" id="panel_btn_click_sound_effect"
-                src="">你的瀏覽器不支援音訊</audio>
-            </div>
-            <div id="使用者頭像" class="item ui header" data-tooltip="尚未登入" data-position="bottom center">
-              <i class="fa fa-question-circle"></i>
-            </div>
-            <div id="登入按鈕區塊" class="icon item" data-tooltip="登入 Google 帳號 以存取試算表" data-position="bottom center">
-              <div id="登入按鈕" class="positive ui button" style="display:none">登入</div>
-              <div id="登出按鈕" class="google plus ui button compact fade animated Inverted" style="display:none">
-                <div class="visible content"><span id="使用者名稱"></span></div>
-                <div class="hidden content">
-                  <h5>登出</h5>
-                </div>
-              </div>
-              <div id="載入按鈕" class="ui loading button">載入</div>
-            </div>
-            <div id="關閉導覽" class="icon item" data-tooltip="收合設定欄" data-position="bottom right">
-              <i class="large window close outline icon"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="tablet mobile only row">
-      <div class="column">
-        <div class="ui menu large">
-          <a id="mobile_item" class="item large"><i class="bars icon"></i></a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="開啟導覽" class="ui vertical animated button mobilehide">
+  <div id="開啟導覽" class="ui vertical animated black button">
     <div class=" hidden content">設定</div>
     <div class="visible content">
       <i class="sliders horizontal icon"></i>
     </div>
   </div>
-
-  <!-- 選單rwd -->
-  <div class="ui pushable segment">
-    <div class="ui sidebar vertical menu">
-      <a id="使用說明頁籤rwd" class="icon item blue">
+  <!-- 導覽列 -->
+  <div id="導覽列">
+    <div class="ui grid stackable compact menu secondary attached">
+      <a id="使用說明頁籤" class="icon item blue">
         <i class="fa fa-question circle outline
-            " aria-hidden="true"></i>
+                " aria-hidden="true"></i>
         <span>&nbsp;&nbsp;系統說明</span>
       </a>
-      <a id="抽獎系統頁籤rwd" class="icon item blue">
-        <i class="fa fa-ticket" aria-hidden="true"></i>
+      <a id="抽獎系統頁籤" class="icon item blue active">
+        <i class="fa fa-vote-yea" aria-hidden="true"></i>
         <span>&nbsp;&nbsp;抽獎系統</span>
       </a>
-      <a id="編輯資料頁籤rwd" class="icon item blue active">
+      <a id="編輯資料頁籤" class="icon item blue">
         <i class="fa fa-edit " aria-hidden="true"></i>
         <span>&nbsp;&nbsp;編輯資料</span>
       </a>
-      <a id="抽獎結果頁籤rwd" class="icon item blue">
+      <a id="抽獎結果頁籤" class="icon item blue">
         <i class="fa fa-file alternate" aria-hidden="true"></i>
         <span>&nbsp;&nbsp;抽獎結果</span>
       </a>
-      <a class="icon item">
-        <i class="fa fa-gift" aria-hidden="true"></i>
-        <span>&nbsp;&nbsp;
-          <select class="ui search dropdown item mobile only" id="search-select-rwd">
-            <option value="">獎品選單</option>
-            <option value="AL">Alabama</option>
-            <option value="AK">Alaska</option>
-            <option value="AZ">Arizona</option>
-            <option value="AR">Arkansas</option>
-            <option value="CA">California</option>
-            <option value="CO">Colorado</option>
-            <option value="CT">Connecticut</option>
-            <option value="DE">Delaware</option>
-            <option value="DC">District Of Columbia</option>
-          </select>
-        </span>
-      </a>
-      <a class="icon item row">
-        <a class="icon item" target="_blank"
-          href="https://docs.google.com/spreadsheets/d/1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw">
-          <i><img src="https://i.imgur.com/ky2ykVM.png"></i>
+      <div class="right menu">
+        <a class="icon item" data-tooltip="獎品選單" data-position="bottom left">
+          <i class="fa fa-gift" aria-hidden="true"></i>
+          <span>&nbsp;&nbsp;
+            <select class="ui search dropdown" id="search-select">
+              <option value="">獎品選單</option>
+              <option value="AL">Alabama</option>
+              <option value="AK">Alaska</option>
+              <option value="AZ">Arizona</option>
+              <option value="AR">Arkansas</option>
+              <option value="CA">California</option>
+              <option value="CO">Colorado</option>
+              <option value="CT">Connecticut</option>
+              <option value="DE">Delaware</option>
+              <option value="DC">District Of Columbia</option>
+            </select>
+          </span>
         </a>
-        <div id="使用者頭像rwd" class="ui header item ">
+        <!-- 聲音開啟/靜音 -->
+        <div id="靜音切換按鈕" class="cursor_pointer item ui header" data-tooltip="靜音/僅點選音效/播放背景音樂"
+          data-position="bottom right">
+          <i class="fa fa-volume-off"></i>
+        </div>
+        <div id="audio_container">
+          <audio type="audio/mpeg" controlslist="nodownload" id="map_background_music" loop
+            src="">你的瀏覽器不支援音訊</audio>
+          <audio type="audio/mpeg" controlslist="nodownload" id="fight_background_music" loop
+            src="">你的瀏覽器不支援音訊</audio>
+          <audio type="audio/mpeg" controlslist="nodownload" id="victory_sound_effect" src="">
+            你的瀏覽器不支援音訊</audio>
+          <audio type="audio/mpeg" controlslist="nodownload" id="keep_going_sound_effect" src="">你的瀏覽器不支援音訊</audio>
+          <audio type="audio/mpeg" controlslist="nodownload" id="panel_btn_click_sound_effect"
+            src="">你的瀏覽器不支援音訊</audio>
+        </div>
+        <div id="使用者頭像" class="ui item header" data-tooltip="尚未登入" data-position="bottom center">
           <i class="fa fa-question-circle"></i>
         </div>
-        <div id="登入按鈕區塊rwd" class="icon item">
-          <div id="登入按鈕rwd" class="positive ui button" style="display:none">登入</div>
-          <div id="登出按鈕rwd" class="google plus ui button compact fade animated Inverted" style="display:none">
-            <div class="visible content"><span id="使用者mailrwd"></span></div>
+        <div id="登入按鈕區塊" class="icon item" data-tooltip="登入 Google 帳號 以存取試算表" data-position="bottom center">
+          <div id="登入按鈕" class="positive ui button" style="display:none">登入</div>
+          <div id="登出按鈕" class="google plus ui button compact fade animated Inverted" style="display:none">
+            <div class="visible content"><span id="使用者名稱"></span></div>
             <div class="hidden content">
               <h5>登出</h5>
             </div>
           </div>
-          <div id="載入按鈕rwd" class="ui loading button">載入</div>
+          <div id="載入按鈕" class="ui loading button">載入</div>
         </div>
-      </a>
-    </div>
-
-    <!-- 使用說明分頁 -->
-    <div class="pusher" id="使用說明分頁" style="display:none">
-      <div class="vh100">
-        <!-- hackmd 使用說明-->
-        <iframe id="說明" class="ui segment" frame-border="0" width="100%" height="100%"
-          src="https://hackmd.io/@NCHUIT/ending-lottery">說明載入中...</iframe>
+        <div id="關閉導覽" class="ui icon item" data-tooltip="收合設定欄" data-position="bottom right">
+          <i class="large minus square icon"></i>
+        </div>
       </div>
     </div>
+  </div>
 
-    <!-- 抽獎系統分頁 -->
-    <div class="pusher" id="抽獎系統分頁">
-      <iframe frameborder="0" noresize="noresize" src="draw.html" frameborder="0">
-      </iframe>
+  <!-- 使用說明分頁 -->
+  <div id="使用說明分頁" style="display:none">
+    <div class="vh100">
+      <!-- hackmd 使用說明-->
+      <iframe id="說明" frame-border="0" src="https://hackmd.io/@NCHUIT/ending-lottery">說明載入中...</iframe>
     </div>
+  </div>
 
-    <!-- 編輯資料分頁 -->
-    <div class="pusher" id="編輯資料分頁" style="display:none">
-      <div>
-        <ul>
-          <li>
-            <h3>填寫新增資料表單</h3>
-            <button id="edit_students" class="edit_btn">新增同學名單</button>
-            <button id="edit_gift" class="edit_btn">新增獎品資料</button>
-          </li>
-          <li>
-            <h3>使用試算表新增/刪除資料</h3>
-            <a class="icon item" target="_blank"
-              href="https://docs.google.com/spreadsheets/d/1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw">
-              <img src="https://i.imgur.com/ky2ykVM.png">
-            </a>
-          </li>
-        </ul>
-      </div>
-      <!-- google表單填寫-同學名單 -->
-      <iframe id="新增同學表單" class="ui segment" frameborder="0" scrolling="no"
-        src="https://docs.google.com/forms/d/e/1FAIpQLSfMexnj15dM3iVNx0CV5Jq46yBfB51AenZmMiWmPRjo-yIMeA/viewform?embedded=true">載入中…</iframe>
-      <!-- google表單填寫-獎品編輯 -->
-      <iframe id="新增獎品表單" class="ui segment" frameborder="0" scrolling="no"
-        src="https://docs.google.com/forms/d/e/1FAIpQLSfPC-JJJOaR8dMcbSJqO03xcDDnIgWok56eQoqXG5mm3-PH7A/viewform?embedded=true">載入中…</iframe>
+  <!-- 抽獎系統分頁 -->
+  <div id="抽獎系統分頁">
+    <iframe frameborder="0" noresize="noresize" src="draw.html">抽獎系統載入中...</iframe>
+  </div>
+
+  <!-- 編輯資料分頁 -->
+  <div id="編輯資料分頁" style="display:none">
+    <div>
+      <ul>
+        <li>
+          <h3>填寫新增資料表單</h3>
+          <button id="edit_students" class="edit_btn">新增同學名單</button>
+          <button id="edit_gift" class="edit_btn">新增獎品資料</button>
+        </li>
+        <li>
+          <h3>使用試算表新增/刪除資料</h3>
+          <a class="icon item" target="_blank"
+            href="https://docs.google.com/spreadsheets/d/1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw">
+            <img src="https://i.imgur.com/ky2ykVM.png">
+          </a>
+        </li>
+      </ul>
     </div>
+    <!-- google表單填寫-同學名單 -->
+    <iframe id="新增同學表單" class="ui segment" frameborder="0" scrolling="no"
+      src="https://docs.google.com/forms/d/e/1FAIpQLSfMexnj15dM3iVNx0CV5Jq46yBfB51AenZmMiWmPRjo-yIMeA/viewform?embedded=true">載入中…</iframe>
+    <!-- google表單填寫-獎品編輯 -->
+    <iframe id="新增獎品表單" class="ui segment" frameborder="0" scrolling="no"
+      src="https://docs.google.com/forms/d/e/1FAIpQLSfPC-JJJOaR8dMcbSJqO03xcDDnIgWok56eQoqXG5mm3-PH7A/viewform?embedded=true">載入中…</iframe>
+  </div>
 
-    <!-- 抽獎結果分頁 -->
-    <div class="pusher" id="抽獎結果分頁" style="display:none">
-      <div class="ui segment">
+  <!-- 抽獎結果分頁 -->
+  <div id="抽獎結果分頁" style="display:none">
+    <div class="ui segment">
 
-
-      </div>
     </div>
   </div>
 
@@ -297,7 +217,6 @@
     "use strict";
     $(document).ready(function () {
       $('#search-select').dropdown();
-      $('#search-select-rwd').dropdown();
       $('#開啟導覽').hide();
 
       $('#關閉導覽').on('click', function () {
@@ -308,10 +227,6 @@
         $('#導覽列').transition('fade up');
         $('#開啟導覽').css('display', 'none');
       })
-      $('.ui.sidebar').sidebar({
-        context: $('.ui.pushable.segment'),
-        transition: 'overlay',
-      }).sidebar('attach events', '#mobile_item');
     })
     $('#edit_students').on('click', function () {
       var position = document.getElementById("新增同學表單");
@@ -356,15 +271,12 @@
     function 切換分頁(啥 = '') {
       $(`#${目前頁面}分頁`).hide();
       $(`#${目前頁面}頁籤`).removeClass('active');
-      $(`#${目前頁面}頁籤rwd`).removeClass('active');
       目前頁面 = 啥;
       $(`#${啥}分頁`).show();
       $(`#${啥}頁籤`).addClass('active');
-      $(`#${啥}頁籤rwd`).addClass('active');
     }
     for (const 啥 of 頁面) {
       $(`#${啥}頁籤`).click(ev => 切換分頁(啥));
-      $(`#${啥}頁籤rwd`).click(ev => 切換分頁(啥));
     }
 
     var 暫存資料庫 = [], 資料庫 = [], 目前抽取 = [], 登入狀態, 正確答案;
@@ -372,14 +284,9 @@
     const 使用者名稱 = document.getElementById('使用者名稱'),
       使用者頭像 = document.getElementById('使用者頭像'),
       登入按鈕區塊 = document.getElementById('登入按鈕區塊'),
-      使用者頭像rwd = document.getElementById('使用者頭像rwd'),
-      使用者mailrwd = document.getElementById('使用者mailrwd'),
       登入按鈕 = document.getElementById('登入按鈕'),
       登出按鈕 = document.getElementById('登出按鈕'),
       載入按鈕 = document.getElementById('載入按鈕'),
-      登入按鈕rwd = document.getElementById('登入按鈕rwd'),
-      登出按鈕rwd = document.getElementById('登出按鈕rwd'),
-      載入按鈕rwd = document.getElementById('載入按鈕rwd'),
       載入提示 = document.getElementById('載入提示'),
       至頂按鈕 = document.getElementById('至頂按鈕'),
       狀態欄 = document.getElementById('狀態欄'),
@@ -396,19 +303,14 @@
      */
     function 更新登入狀態(isSignedIn = Boolean(gapi.auth2.getAuthInstance().isSignedIn.get()), 只是看看 = false) {
       載入按鈕.style.display = 'none';
-      載入按鈕rwd.style.display = 'none';
       if (isSignedIn) {
         登入按鈕.style.display = 'none';
-        登入按鈕rwd.style.display = 'none';
         登出按鈕.style.display = 'block';
-        登出按鈕rwd.style.display = 'block';
         if (只是看看) return isSignedIn;
         重載資料庫();
       } else {
         登入按鈕.style.display = 'block';
-        登入按鈕rwd.style.display = 'block';
         登出按鈕.style.display = 'none';
-        登出按鈕rwd.style.display = 'none';
       }
       // From https://developers.google.com/identity/sign-in/web/people
       if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
@@ -416,15 +318,11 @@
         window.profile = profile;
         使用者名稱.innerHTML = profile.getGivenName();
         使用者頭像.innerHTML = `<i><img src="${profile.getImageUrl()}"></i>`;
-        使用者頭像rwd.innerHTML = `<i><img src="${profile.getImageUrl()}"></i><span>${profile.getGivenName()}</span>`;
-        使用者mailrwd.innerHTML = profile.getEmail();
         使用者頭像.setAttribute("data-tooltip", profile.getEmail());
         登入按鈕區塊.setAttribute("data-tooltip", "已登入 " + profile.getEmail());
       } else {
         使用者名稱.innerHTML = "登出";
         使用者頭像.innerHTML = `<i class="fa fa-question-circle"></i>`;
-        使用者頭像rwd.innerHTML = `<i class="fa fa-question-circle"></i><span>尚未登入</span>`;
-        使用者mailrwd.innerHTML = "尚未登入";
         使用者頭像.setAttribute("data-tooltip", "尚未登入");
         登入按鈕區塊.setAttribute("data-tooltip", "登入 Google 帳號 以存取試算表");
       }
@@ -512,8 +410,6 @@
       載入提示.style.display = 'flex';
       載入按鈕.style.display = 'block';
       登入按鈕.style.display = 'none';
-      載入按鈕rwd.style.display = 'block';
-      登入按鈕rwd.style.display = 'none';
       if (gapi.auth2.getAuthInstance().isSignedIn.get())
         gapi.auth2.getAuthInstance().signOut();
       try {
@@ -526,9 +422,9 @@
     }
 
     // EventListener
-    登入按鈕.onclick = 登入按鈕rwd.onclick = 錯誤訊息視窗登入按鈕.onclick = 登入;
+    登入按鈕.onclick = 錯誤訊息視窗登入按鈕.onclick = 登入;
 
-    登出按鈕.onclick = 登出按鈕rwd.onclick = e => {
+    登出按鈕.onclick = e => {
       重設狀態欄('您已登出');
       載入按鈕.style.display = 'block';
       暫存資料庫 = 資料庫 = 目前抽取 = 正確答案 = [];
@@ -542,7 +438,7 @@
       更新登入狀態(false);
     };
 
-    載入按鈕.onclick = 載入按鈕rwd.onclick = 載入提示.onclick = e => {
+    載入按鈕.onclick = 載入提示.onclick = e => {
       if (更新登入狀態()) 重載資料庫();
     };
 
@@ -554,9 +450,8 @@
 
     onfocus = e => 更新登入狀態(gapi.auth2.getAuthInstance().isSignedIn.get(), true);
     onblur = e => {
-      登入按鈕.style.display = 登出按鈕.style.display =
-        登入按鈕rwd.style.display = 登出按鈕rwd.style.display = 'none';
-      載入按鈕.style.display = 載入按鈕rwd.style.display = 'block';
+      登入按鈕.style.display = 登出按鈕.style.display = 'none';
+      載入按鈕.style.display = 'block';
     }
     // from https://www.w3schools.com/howto/howto_js_scroll_to_top.asp
     // When the user scrolls down 20px from the top of the document, show the button

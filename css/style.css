@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 a.icon.item[href^="https://docs.google.com/spreadsheets"]>img {
     height: 40px;
 }
@@ -17,8 +15,7 @@ iframe[id^="新增"][id$="表單"] {
     overflow: hidden;
 }
 
->>>>>>> 4403cc6feedbca5bc222f6976a40811d072680f8
-#抽獎系統分頁>iframe {
+#抽獎系統分頁>iframe, #說明 {
     position: absolute;
     background: transparent;
     width: 100%;
@@ -33,15 +30,11 @@ iframe[id^="新增"][id$="表單"] {
     cursor: pointer;
 }
 
-#關閉導覽>i.icon {
-    margin-right: 20px;
-}
-
 .vh50 {
     height: 49.875vh;
 }
 
-.vh100 {
+.vh100, #抽獎系統分頁 {
     height: 99.75vh;
 }
 
@@ -58,12 +51,8 @@ iframe[id^="新增"][id$="表單"] {
     opacity: unset;
 }
 
-<<<<<<< HEAD
-#使用者頭像 i img, #使用者頭像rwd i img {
-=======
 #使用者頭像 i img,
 #使用者頭像rwd i img {
->>>>>>> 4403cc6feedbca5bc222f6976a40811d072680f8
     -webkit-border-radius: 50%;
     border-radius: 50%;
 }
@@ -126,7 +115,7 @@ i img {
     display: flex;
     position: absolute;
     top: 1em;
-    right: 3em;
+    right: 1em;
     width: 60px;
 }
 
