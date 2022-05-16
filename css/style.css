@@ -1,3 +1,23 @@
+<<<<<<< HEAD
+=======
+a.icon.item[href^="https://docs.google.com/spreadsheets"]>img {
+    height: 40px;
+}
+
+#新增同學表單 {
+    height: 1250px;
+}
+
+#新增獎品表單 {
+    height: 300px;
+}
+
+iframe[id^="新增"][id$="表單"] {
+    width: 100%;
+    overflow: hidden;
+}
+
+>>>>>>> 4403cc6feedbca5bc222f6976a40811d072680f8
 #抽獎系統分頁>iframe {
     position: absolute;
     background: transparent;
@@ -38,7 +58,12 @@
     opacity: unset;
 }
 
+<<<<<<< HEAD
 #使用者頭像 i img, #使用者頭像rwd i img {
+=======
+#使用者頭像 i img,
+#使用者頭像rwd i img {
+>>>>>>> 4403cc6feedbca5bc222f6976a40811d072680f8
     -webkit-border-radius: 50%;
     border-radius: 50%;
 }
@@ -102,6 +127,7 @@ i img {
     position: absolute;
     top: 1em;
     right: 3em;
+    width: 60px;
 }
 
 .edit_btn {

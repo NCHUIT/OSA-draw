@@ -43,7 +43,7 @@
                     <div class="col-md-12">
                         <!-- 獎品圖片 -->
                         <div class="lower">
-                            <div class="custom-swiper-wrapper">
+                            <div class="custom-swiper-wrapper" id="gift_rwd">
                                 <!-- 箭頭prev -->
                                 <div class="swiper-button-custom-prev"><svg xmlns="http://www.w3.org/2000/svg"
                                         width="40" height="40" viewBox="0 0 24 24" transform="rotate(180)">
@@ -77,16 +77,24 @@
                                 </div>
                             </div>
                             <!-- 獎品名稱 &數量-->
-                            <div>
-                                <p>獎品名稱/數量</p>
-                            </div>
+
                         </div>
                         <div class="right">
                             <button onclick="clickDraw()" class="draw_btn">抽獎</button>
                         </div>
                     </div>
                 </div>
+                <div class="gift_text">
+                    <p>獎品名稱/數量</p>
+                </div>
         </section>
+        <section class="section_rwd" id="rwd_stage"></section>
+        <section class="section_title_rwd" id="rwd_title"></section>
+        <section class="section_board_rwd" id="rwd_board"></section>
+        <section class="section_btn_rwd" id="rwd_btn">
+            <button onclick="clickDraw()" class="draw_btn">抽獎</button>
+        </section>
+        <section class="section_result_rwd" id="rwd_result"></section>
     </div>
 
     <script>

@@ -19,9 +19,10 @@
 }
 
 #slide_bg {
-    background-image: url('../img/bg.gif');
+    background-image: url('../img/bg.jpg');
     background-size: cover;
     background-position: center;
+    /* position: static; */
 }
 
 
@@ -30,15 +31,6 @@
 }
 
 /* 獎品圖片輪播 */
-.lower p {
-    color: white;
-    font-size: 36px;
-    font-weight: 600;
-    letter-spacing: 2;
-    font-family: 'Noto Sans Traditional Chinese', sans-serif;
-    position: relative;
-}
-
 .lower {
     position: absolute;
     top: 12.5%;
@@ -49,7 +41,9 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center
+    align-items: center;
+    right: 0;
+    left: 0;
 }
 
 .custom-swiper-wrapper {
@@ -89,6 +83,24 @@
     transform: scale(1.2);
 }
 
+.gift_text {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    bottom: 180px;
+}
+
+.gift_text p {
+    text-align: center;
+    color: white;
+    font-size: 36px;
+    font-weight: 600;
+    letter-spacing: 2;
+    font-family: 'Noto Sans Traditional Chinese', sans-serif;
+}
+
 /* right */
 .right {
     position: absolute;
@@ -124,73 +136,246 @@
     background: linear-gradient(0deg, rgb(60, 59, 59), rgb(55, 54, 54));
 }
 
+/* rwd */
+#rwd_stage {
+    background-image: url('../img/rwd/抽獎系統_03.jpg');
+    background-size: cover;
+    background-position: center;
+    display: none;
+}
+
+#rwd_title {
+    background-image: url('../img/rwd/title.jpg');
+    background-size: contain;
+    background-position: center;
+    display: none;
+}
+
+#rwd_board {
+    background-image: url('../img/rwd/抽獎系統_11.gif');
+    background-size: contain;
+    background-position: center;
+    display: none;
+}
+
+#rwd_btn {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    right: 0;
+    left: 0;
+    text-align: center;
+    display: none;
+}
+
+#rwd_result {
+    background-image: url('../img/rwd/抽獎系統_06.jpg');
+    background-size: contain;
+    background-position: center;
+    display: none;
+}
+
 /* section end */
 
 /* RWD start*/
-@media screen and (max-width:990px) {
-    .logo_rwd {
-        position: absolute;
-        left: auto;
-        right: 20px;
+@media screen and (max-width:1450px) {
+    .gift_text {
+        bottom: 200px;
     }
-
-    .navbar {
-        background-color: white;
-    }
-
-    .nav2 {
-        position: relative;
-        top: 0px;
-        right: auto;
-    }
-
-    #menu .active a {
-        color: rgba(0, 0, 0, .7) !important;
-        border-bottom: 1.5px solid rgba(0, 0, 0, .7) !important;
-        width: 75px;
-    }
-
-    #menu .active {
-        color: rgba(0, 0, 0, .7) !important;
-        background: none !important;
-    }
-
 }
 
-@media screen and (max-width:768px) {
+@media screen and (max-width:1128px) {
+    .gift_text {
+        bottom: 221px;
+    }
 
-    .lower .index_btn1,
-    .lower .index_btn2 {
+    .gift_text p {
+        font-size: 30px;
+    }
+}
+
+@media screen and (max-width:990px) {
+    #slide_bg {
         display: none;
     }
 
-    .lower .action_btn1_rwd {
-        font-size: 12px;
-        text-decoration: none;
-        color: white;
-        background: rgba(23, 26, 32, 0.8);
-        padding: 12px 92px;
-        border-radius: 50px;
-        margin: 0px 7%;
+    .section_rwd {
+        width: 100%;
+        height: 60vh;
     }
 
-    .lower .action_btn2_rwd {
-        font-size: 12px;
-        text-decoration: none;
-        color: #393c41;
-        background: rgba(244, 244, 244, 0.65);
-        padding: 12px 90px;
-        border-radius: 50px;
-        margin: 0px 7%;
-        margin-top: 16px;
-    }
-
-    .lower .action_btn1_rwd,
-    .lower .action_btn2_rwd {
+    #rwd_title {
         display: block;
-        visibility: hidden;
+    }
+
+    .section_title_rwd {
+        width: 670px;
+        height: 180px;
+        position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+        right: 0;
+        left: 0;
+    }
+
+    #rwd_stage {
+        display: block;
+    }
+
+    .section_board_rwd {
+        width: 670px;
+        height: 165px;
+        position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+        right: 0;
+        left: 0;
+        margin-top: 160px
+    }
+
+    #rwd_board {
+        display: block;
+    }
+
+    .section_result_rwd {
+        width: 400px;
+        height: 450px;
+        position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+        right: 0;
+        left: 0;
+        margin-top: 480px;
+    }
+
+    #rwd_btn {
+        display: block;
+    }
+
+
+    .draw_btn {
+        font-size: 32px;
+        font-weight: 600;
+        letter-spacing: 2;
+        width: 120px;
+        height: 120px;
+        margin-top: 330px;
+    }
+
+    #rwd_result {
+        display: block;
     }
 
 }
+
+@media screen and (max-width:840px) {
+
+    .section_title_rwd {
+        width: 576px;
+        height: 140px;
+    }
+
+    .section_board_rwd {
+        width: 576px;
+        height: 140px;
+        margin-top: 130px
+    }
+
+    .draw_btn {
+        font-size: 25px;
+        font-weight: 600;
+        letter-spacing: 2;
+        width: 90px;
+        height: 90px;
+        margin-top: 280px
+    }
+
+    .draw_btn:hover {
+        border: #eedc75f0 solid 6px;
+    }
+
+    .draw_btn :active {
+        border: #eedc75f0 solid 6px;
+    }
+
+    .section_result_rwd {
+        width: 350px;
+        height: 400px;
+    }
+}
+
+@media screen and (max-width:768px) {}
+
+@media screen and (max-width:576px) {
+
+    .section_title_rwd {
+        width: 400px;
+        height: 100px;
+    }
+
+    .section_board_rwd {
+        width: 400px;
+        height: 90px;
+        margin-top: 90px;
+    }
+
+    .draw_btn {
+        font-size: 25px;
+        font-weight: 600;
+        letter-spacing: 2;
+        width: 90px;
+        height: 90px;
+        margin-top: 200px;
+    }
+
+    .draw_btn:hover {
+        border: #eedc75f0 solid 6px;
+    }
+
+    .draw_btn :active {
+        border: #eedc75f0 solid 6px;
+    }
+
+    .section_result_rwd {
+        width: 300px;
+        height: 350px;
+    }
+}
+
+@media screen and (max-width:400px) {
+    .section_title_rwd {
+        width: 360px;
+        height: 90px;
+    }
+
+    .section_board_rwd {
+        width: 360px;
+        height: 80px;
+        margin-top: 80px;
+    }
+
+    .draw_btn {
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0;
+        width: 60px;
+        height: 60px;
+        margin-top: 10px;
+    }
+
+    .draw_btn:hover {
+        border: #eedc75f0 solid 3px;
+    }
+
+    .draw_btn :active {
+        border: #eedc75f0 solid 3px;
+    }
+
+    .section_result_rwd {
+        width: 240px;
+        height: 270px;
+    }
+}
+
 
 /* RWD end */
