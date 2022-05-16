@@ -138,11 +138,7 @@
     </div>
   </div>
 
-<<<<<<< HEAD
-  <div id="開啟導覽" class="ui vertical animated button mobilehide" style="width:60px;">
-=======
   <div id="開啟導覽" class="ui vertical animated button mobilehide">
->>>>>>> 4403cc6feedbca5bc222f6976a40811d072680f8
     <div class=" hidden content">設定</div>
     <div class="visible content">
       <i class="sliders horizontal icon"></i>
@@ -417,11 +413,7 @@
       // From https://developers.google.com/identity/sign-in/web/people
       if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
         const profile = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile();
-<<<<<<< HEAD
-        window.profile=profile;
-=======
         window.profile = profile;
->>>>>>> 4403cc6feedbca5bc222f6976a40811d072680f8
         使用者名稱.innerHTML = profile.getGivenName();
         使用者頭像.innerHTML = `<i><img src="${profile.getImageUrl()}"></i>`;
         使用者頭像rwd.innerHTML = `<i><img src="${profile.getImageUrl()}"></i><span>${profile.getGivenName()}</span>`;
@@ -493,37 +485,16 @@
           資料庫 = 暫存資料庫 = range.values;
           重設狀態欄();
           const 欄位標題 = ['科系', '姓名', '學號', '電話', '座位'];
-<<<<<<< HEAD
-          var i = 0;
-          // window.題庫=題庫;
-          for (const row of 題庫) {
-            /* if(i < 題庫.length && 題庫.slice(i+1).includes(row[0])){
-              題庫.splice(i, 1);
-              continue;
-            } */
-            i++;
-=======
           // var i = 0;
           for (const row of 資料庫) {
             /* if(i < 題庫.length && 題庫.slice(i+1).includes(row[0])){
               題庫.splice(i, 1);
               continue;
             } i++; */
->>>>>>> 4403cc6feedbca5bc222f6976a40811d072680f8
             for (const i in 欄位標題)
               狀態欄續寫('\n' + 欄位標題[i] + ': ' + row[i]);
             狀態欄續寫('\n');
           }
-<<<<<<< HEAD
-          題庫.reverse();
-          打亂陣列(暫存資料庫);
-          // 取試算表資料
-          fetch('https://sheets.googleapis.com/v4/spreadsheets/1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw/values/獎品資料?alt=json&key=AIzaSyCRfe3-dnm9GGMH_PFm9m5WHBMb_8U9HXY')
-              .then(res => res.json())
-              .then(res => {
-                  console.log(res);// 因為頁面未公開，故無法存取
-              })
-=======
           資料庫.reverse();
           打亂陣列(暫存資料庫);
           // 取試算表資料
@@ -532,7 +503,6 @@
             .then(res => {
               console.log(res);// 因為頁面未公開，故無法存取
             })
->>>>>>> 4403cc6feedbca5bc222f6976a40811d072680f8
           載入提示.style.display = 'none';
         } else 彈出錯誤訊息('查無資料');
       }, 回應 => 彈出錯誤訊息('Error: ' + 回應.result.error.message));
