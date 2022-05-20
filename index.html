@@ -44,11 +44,14 @@
   <![endif]-->
   <!-- css樣式 -->
   <link rel="stylesheet" href="css/style.css">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 
 <body>
   <div id="開啟導覽" class="ui vertical animated black button">
-    <div class=" hidden content">設定</div>
+    <div class="hidden content">設定</div>
     <div class="visible content">
       <i class="sliders horizontal icon"></i>
     </div>
@@ -78,16 +81,7 @@
           <i class="fa fa-gift" aria-hidden="true"></i>
           <span>&nbsp;&nbsp;
             <select class="ui search dropdown" id="search-select">
-              <option value="">獎品選單</option>
-              <option value="AL">Alabama</option>
-              <option value="AK">Alaska</option>
-              <option value="AZ">Arizona</option>
-              <option value="AR">Arkansas</option>
-              <option value="CA">California</option>
-              <option value="CO">Colorado</option>
-              <option value="CT">Connecticut</option>
-              <option value="DE">Delaware</option>
-              <option value="DC">District Of Columbia</option>
+              <option>獎品選單</option>
             </select>
           </span>
         </a>
@@ -97,26 +91,21 @@
           <i class="fa fa-volume-off"></i>
         </div>
         <div id="audio_container">
-          <audio type="audio/mpeg" controlslist="nodownload" id="map_background_music" loop
-            src="">你的瀏覽器不支援音訊</audio>
-          <audio type="audio/mpeg" controlslist="nodownload" id="fight_background_music" loop
-            src="">你的瀏覽器不支援音訊</audio>
+          <audio type="audio/mpeg" controlslist="nodownload" id="map_background_music" loop src="">你的瀏覽器不支援音訊</audio>
+          <audio type="audio/mpeg" controlslist="nodownload" id="fight_background_music" loop src="">你的瀏覽器不支援音訊</audio>
           <audio type="audio/mpeg" controlslist="nodownload" id="victory_sound_effect" src="">
             你的瀏覽器不支援音訊</audio>
           <audio type="audio/mpeg" controlslist="nodownload" id="keep_going_sound_effect" src="">你的瀏覽器不支援音訊</audio>
-          <audio type="audio/mpeg" controlslist="nodownload" id="panel_btn_click_sound_effect"
-            src="">你的瀏覽器不支援音訊</audio>
+          <audio type="audio/mpeg" controlslist="nodownload" id="panel_btn_click_sound_effect" src="">你的瀏覽器不支援音訊</audio>
         </div>
         <div id="使用者頭像" class="ui item header" data-tooltip="尚未登入" data-position="bottom center">
           <i class="fa fa-question-circle"></i>
         </div>
         <div id="登入按鈕區塊" class="icon item" data-tooltip="登入 Google 帳號 以存取試算表" data-position="bottom center">
           <div id="登入按鈕" class="positive ui button" style="display:none">登入</div>
-          <div id="登出按鈕" class="google plus ui button compact fade animated Inverted" style="display:none">
+          <div id="登出按鈕" class="google plus ui vertical animated black button" style="display:none">
             <div class="visible content"><span id="使用者名稱"></span></div>
-            <div class="hidden content">
-              <h5>登出</h5>
-            </div>
+            <div class="hidden content">登出</div>
           </div>
           <div id="載入按鈕" class="ui loading button">載入</div>
         </div>
@@ -165,7 +154,6 @@
     <iframe id="新增獎品表單" class="ui segment" frameborder="0" scrolling="no"
       src="https://docs.google.com/forms/d/e/1FAIpQLSfPC-JJJOaR8dMcbSJqO03xcDDnIgWok56eQoqXG5mm3-PH7A/viewform?embedded=true">載入中…</iframe>
   </div>
-
   <!-- 抽獎結果分頁 -->
   <div id="抽獎結果分頁" style="display:none">
     <div class="ui segment">
@@ -261,6 +249,16 @@
           return 0;
       }
     }
+    // swiper
+    const swiper = new Swiper(".swiper", {
+      loop: true,
+      zoom: true,
+      navigation: {
+        nextEl: ".swiper-button-custom-next",
+        prevEl: ".swiper-button-custom-prev"
+      }
+    });
+
 
   </script>
 
@@ -396,13 +394,38 @@
           資料庫.reverse();
           打亂陣列(暫存資料庫);
           // 取試算表資料
-          fetch('https://sheets.googleapis.com/v4/spreadsheets/1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw/values/獎品資料?alt=json&key=AIzaSyCRfe3-dnm9GGMH_PFm9m5WHBMb_8U9HXY')
-            .then(res => res.json())
-            .then(res => {
-              console.log(res);// 因為頁面未公開，故無法存取
-            })
+          // fetch('https://sheets.googleapis.com/v4/spreadsheets/1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw/values/獎品資料?alt=json&key=AIzaSyCRfe3-dnm9GGMH_PFm9m5WHBMb_8U9HXY')
+          //   .then(res => res.json())
+          //   .then(res => {
+          //     console.log(res);// 因為頁面未公開，故無法存取
+          //   })
           載入提示.style.display = 'none';
         } else 彈出錯誤訊息('查無資料');
+      }, 回應 => 彈出錯誤訊息('Error: ' + 回應.result.error.message));
+
+      // 取出所有獎品資料
+      gapi.client.sheets.spreadsheets.values.get({
+        spreadsheetId: "1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw",
+        range: '獎品資料!B:D',
+      }).then(res => {
+        const remove_name = res.result.values.shift();
+        const gift_all = res.result.values;
+        // console.log(gift_all);
+        const gift_array = gift_all.map(function (item, index) {
+          return (item)[0];
+        });
+        // console.log(gift_array);
+        // 將獎品名稱放入選單
+        $('#search-select').append(
+          gift_array.map(function (e) {
+            return $('<option/>', {
+              value: e,
+              text: e
+            })
+          })
+        ).change(function () {
+          console.log(this.value);
+        });
       }, 回應 => 彈出錯誤訊息('Error: ' + 回應.result.error.message));
     }
 

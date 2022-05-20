@@ -36,65 +36,64 @@
             </div>
         </section>
     </div> -->
-    <div>
-        <section class="section" id="slide_bg">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <!-- 獎品圖片 -->
-                        <div class="lower">
-                            <div class="custom-swiper-wrapper" id="gift_rwd">
-                                <!-- 箭頭prev -->
-                                <div class="swiper-button-custom-prev"><svg xmlns="http://www.w3.org/2000/svg"
-                                        width="40" height="40" viewBox="0 0 24 24" transform="rotate(180)">
-                                        <path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z" />
-                                    </svg>
-                                </div>
-                                <div class="swiper">
-                                    <div class="swiper-wrapper">
-                                        <div class="swiper-slide">
-                                            <div class="swiper-zoom-container">
-                                                <img class="img_shadow" src="img/messageImage_1652455824541.jpg">
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="swiper-zoom-container">
-                                                <img class="img_shadow" src="img/messageImage_1652455855015.jpg">
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="swiper-zoom-container">
-                                                <img class="img_shadow" src="img/messageImage_1652455864115.jpg">
-                                            </div>
-                                        </div>
+    <section class="section" id="slide_bg">
+    </section>
+    <!-- 響應式 -->
+    <section class="section_rwd" id="rwd_stage"></section>
+    <section class="section_title_rwd" id="rwd_title"></section>
+    <section class="section_board_rwd" id="rwd_board"></section>
+    <section class="section_result_rwd" id="rwd_result"></section>
+
+    <!-- 文字、按鈕內容 -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- 獎品圖片 -->
+                <div class="lower">
+                    <div class="custom-swiper-wrapper">
+                        <!-- 箭頭prev -->
+                        <div class="swiper-button-custom-prev"><svg xmlns="http://www.w3.org/2000/svg" width="40"
+                                height="40" viewBox="0 0 24 24" transform="rotate(180)">
+                                <path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z" />
+                            </svg>
+                        </div>
+                        <div class="swiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div class="swiper-zoom-container">
+                                        <img class="img_shadow" src="img/messageImage_1652455824541.jpg">
                                     </div>
                                 </div>
-                                <!-- 箭頭next -->
-                                <div class="swiper-button-custom-next"><svg xmlns="http://www.w3.org/2000/svg"
-                                        width="40" height="40" viewBox="0 0 24 24" transform="rotate(0)">
-                                        <path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z" />
-                                    </svg>
+                                <div class="swiper-slide">
+                                    <div class="swiper-zoom-container">
+                                        <img class="img_shadow" src="img/messageImage_1652455855015.jpg">
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="swiper-zoom-container">
+                                        <img class="img_shadow" src="img/messageImage_1652455864115.jpg">
+                                    </div>
                                 </div>
                             </div>
-                            <!-- 獎品名稱 &數量-->
-
                         </div>
-                        <div class="right">
-                            <button onclick="clickDraw()" class="draw_btn">抽獎</button>
+                        <!-- 箭頭next -->
+                        <div class="swiper-button-custom-next"><svg xmlns="http://www.w3.org/2000/svg" width="40"
+                                height="40" viewBox="0 0 24 24" transform="rotate(0)">
+                                <path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z" />
+                            </svg>
                         </div>
                     </div>
+                    <!-- 獎品名稱 &數量-->
+
                 </div>
-                <div class="gift_text">
-                    <p>獎品名稱/數量</p>
+                <div class="right">
+                    <button onclick="clickDraw()" class="draw_btn">抽獎</button>
                 </div>
-        </section>
-        <section class="section_rwd" id="rwd_stage"></section>
-        <section class="section_title_rwd" id="rwd_title"></section>
-        <section class="section_board_rwd" id="rwd_board"></section>
-        <section class="section_btn_rwd" id="rwd_btn">
-            <button onclick="clickDraw()" class="draw_btn">抽獎</button>
-        </section>
-        <section class="section_result_rwd" id="rwd_result"></section>
+            </div>
+        </div>
+        <div class="gift_text">
+            <p>獎品名稱/數量</p>
+        </div>
     </div>
 
     <script>
@@ -107,12 +106,12 @@
             }
         });
         // 取試算表資料
-        fetch('https://sheets.googleapis.com/v4/spreadsheets/1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw/values/獎品資料?alt=json&key=AIzaSyCRfe3-dnm9GGMH_PFm9m5WHBMb_8U9HXY')
-            .then(res => res.json())
-            .then(res => {
-                console.log(res)
-            })
-
+        // fetch('https://sheets.googleapis.com/v4/spreadsheets/1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw/values/獎品資料?alt=json&key=AIzaSyCRfe3-dnm9GGMH_PFm9m5WHBMb_8U9HXY')
+        //     .then(res => res.json())
+        //     .then(res => {
+        //         console.log(res)
+        //     })
+        onload = ev => console.log(parent.資料庫);
     </script>
 
 </body>

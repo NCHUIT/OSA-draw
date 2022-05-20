@@ -1,3 +1,6 @@
+<!-- Modify from:
+  https://github.com/googleworkspace/browser-samples/blob/c056755f6d559eca34368b890d8aa3c593162106/sheets/quickstart/index.html
+-->
 <!DOCTYPE html>
 <html>
 
@@ -12,7 +15,7 @@
   <p>Sheets API Quickstart</p>
 
   <script type="text/javascript">
-    // Add buttons to initiate auth sequence and sign out
+    console.log(`Add buttons to initiate auth sequence and sign out.`);
     const authorize_button = document.createElement('button'),
       signout_button = document.createElement('button'),
       refresh_button = document.createElement('button'),
@@ -29,8 +32,7 @@
     document.body.appendChild(refresh_button);
     document.body.appendChild(content);
 
-
-    // api.js is loaded.
+    console.log(`api.js is loaded.`);
     gapi.load('client', async () => {
       // Loads the discovery doc to initialize the API after the API client is loaded.
       await gapi.client.init({
@@ -40,24 +42,21 @@
         discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
       });
     });
-
-    // Google Identity Services are loaded.
+    console.log(`Google Identity Services are loaded.`);
     let tokenClient = google.accounts.oauth2.initTokenClient({
       // Set to client ID from the Developer Console
       client_id: '289902636224-oro06s681gdgk1kqrv8o1oca2shocfr4.apps.googleusercontent.com',
       // Authorization scopes required by the API; multiple scopes can be included, separated by spaces.
       scope: 'https://www.googleapis.com/auth/spreadsheets.readonly',
-      callback: '', // defined later
-    });
-
-    // Sign in the user upon button click.
-    authorize_button.onclick = onload = () => {
-      tokenClient.callback = async resp => {
+      callback: async resp => {
         if (resp.error !== undefined)
           throw resp;
         await listMajors();
-      };
+      }
+    });
 
+    console.log(`Sign in the user upon button click and page load.`);
+    authorize_button.onclick = onload = () => {
       if (gapi.client.getToken() === null) {
         // Prompt the user to select a Google Account and ask for consent to share their data
         // when establishing a new session.
@@ -68,7 +67,7 @@
       }
     }
 
-    // Sign out the user upon button click.
+    console.log(`Sign out the user upon button click.`);
     signout_button.onclick = () => {
       const token = gapi.client.getToken();
       if (token !== null) {
@@ -78,14 +77,13 @@
       }
     }
 
-    /**
-     * Print the content of the spreadsheet:
-     * https://docs.google.com/spreadsheets/d/1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw
-     */
-    async function listMajors() {
+    console.log(`
+      Print the content of the spreadsheet:
+      https://docs.google.com/spreadsheets/d/1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw
+    `);
+    const listMajors = refresh_button.onclick = async function() {
       let response;
       try {
-        // Fetch first 10 files
         response = await gapi.client.sheets.spreadsheets.values.get({
           spreadsheetId: '1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw',
           range: '同學資料!B2:F',
@@ -99,17 +97,18 @@
         content.innerText = 'No values found.';
         return;
       }
-      for(let i=-1; ++i < rv.length-1;)
-        for(const s of rv.slice(i+1))
-          if(s[0] === rv[i][0]){
-            for(let j=0; ++j < 5;){
-              console.log(rv[i],s);
-              if(!s[j] && rv[i][j])
-                s[j] = rv[i][j];
-            }
-            rv.splice(i,1);
-            break;
+      for(let i=-1; ++i < rv.length-1;){
+        const x = rv[i];
+        for(const y of rv.slice(i+1)) if(y[0] === x[0]){
+          for(let j=0; ++j < 5;){
+            // console.log(x,y);
+            if(!y[j] && x[j])
+              y[j] = x[j];
           }
+          rv.splice(i--,1);
+          break;
+        }
+      }
       // Flatten to string to display
       content.innerText =
         rv.reduce(
@@ -119,7 +118,6 @@
       window.seek = rv;
       console.log(rv);
     }
-    refresh_button.onclick = listMajors;
 
   </script>
 </body>
