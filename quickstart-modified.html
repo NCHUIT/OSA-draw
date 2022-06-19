@@ -13,8 +13,19 @@
 
 <body>
   <p>Sheets API Quickstart</p>
+  <div id="buttonDiv"></div> 
 
   <script type="text/javascript">
+    // https://developers.google.com/identity/gsi/web/guides/display-button
+    google.accounts.id.initialize({
+      client_id: "289902636224-oro06s681gdgk1kqrv8o1oca2shocfr4.apps.googleusercontent.com",
+      callback: response => console.log(response)
+    });
+    google.accounts.id.renderButton(
+      document.getElementById("buttonDiv"), { theme: "outline" }  // customization attributes
+    );
+    google.accounts.id.prompt(); // also display the One Tap dialog
+
     console.log(`Add buttons to initiate auth sequence and sign out.`);
     const authorize_button = document.createElement('button'),
       signout_button = document.createElement('button'),
@@ -43,29 +54,19 @@
       });
     });
     console.log(`Google Identity Services are loaded.`);
-    let tokenClient = google.accounts.oauth2.initTokenClient({
+    tokenClient = google.accounts.oauth2.initTokenClient({
       // Set to client ID from the Developer Console
       client_id: '289902636224-oro06s681gdgk1kqrv8o1oca2shocfr4.apps.googleusercontent.com',
       // Authorization scopes required by the API; multiple scopes can be included, separated by spaces.
       scope: 'https://www.googleapis.com/auth/spreadsheets.readonly',
       callback: async resp => {
-        if (resp.error !== undefined)
-          throw resp;
+        if (resp.error !== undefined) throw resp;
         await listMajors();
       }
     });
 
     console.log(`Sign in the user upon button click and page load.`);
-    authorize_button.onclick = onload = () => {
-      if (gapi.client.getToken() === null) {
-        // Prompt the user to select a Google Account and ask for consent to share their data
-        // when establishing a new session.
-        tokenClient.requestAccessToken({ prompt: 'consent' });
-      } else {
-        // Skip display of account chooser and consent dialog for an existing session.
-        tokenClient.requestAccessToken({ prompt: '' });
-      }
-    }
+    authorize_button.onclick = onload = () => tokenClient.requestAccessToken()
 
     console.log(`Sign out the user upon button click.`);
     signout_button.onclick = () => {
