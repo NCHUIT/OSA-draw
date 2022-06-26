@@ -16,15 +16,16 @@
   <div id="buttonDiv"></div> 
 
   <script type="text/javascript">
-    // https://developers.google.com/identity/gsi/web/guides/display-button
-    google.accounts.id.initialize({
-      client_id: "289902636224-oro06s681gdgk1kqrv8o1oca2shocfr4.apps.googleusercontent.com",
-      callback: response => console.log(response)
-    });
-    google.accounts.id.renderButton(
-      document.getElementById("buttonDiv"), { theme: "outline" }  // customization attributes
-    );
-    google.accounts.id.prompt(); // also display the One Tap dialog
+    // from https://stackoverflow.com/questions/38552003/how-to-decode-jwt-token-in-javascript-without-using-a-library
+    function parseJwt (token) {
+      var base64Url = token.split('.')[1];
+      var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+
+      return JSON.parse(jsonPayload);
+    };
 
     console.log(`Add buttons to initiate auth sequence and sign out.`);
     const authorize_button = document.createElement('button'),
@@ -53,20 +54,37 @@
         discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
       });
     });
+
     console.log(`Google Identity Services are loaded.`);
     tokenClient = google.accounts.oauth2.initTokenClient({
+      ux_mode: "redirect",// NOT WORKING
+      login_uri: "http://localhost/quickstart-modified.html",
       // Set to client ID from the Developer Console
       client_id: '289902636224-oro06s681gdgk1kqrv8o1oca2shocfr4.apps.googleusercontent.com',
       // Authorization scopes required by the API; multiple scopes can be included, separated by spaces.
       scope: 'https://www.googleapis.com/auth/spreadsheets.readonly',
       callback: async resp => {
+        console.log(resp);
         if (resp.error !== undefined) throw resp;
+
+        // https://developers.google.com/identity/gsi/web/guides/display-button
+        google.accounts.id.initialize({
+          ux_mode: "redirect",
+          login_uri: "http://localhost/quickstart-modified.html",
+          client_id: "289902636224-oro06s681gdgk1kqrv8o1oca2shocfr4.apps.googleusercontent.com",
+          callback: response => console.log(parseJwt(response.credential))
+        });
+        google.accounts.id.renderButton(
+          document.getElementById("buttonDiv"), { theme: "outline" }  // customization attributes
+        );
+        google.accounts.id.prompt(); // also display the One Tap dialog
+
         await listMajors();
       }
     });
 
     console.log(`Sign in the user upon button click and page load.`);
-    authorize_button.onclick = onload = () => tokenClient.requestAccessToken()
+    authorize_button.onclick = onload = () => tokenClient.requestAccessToken();
 
     console.log(`Sign out the user upon button click.`);
     signout_button.onclick = () => {
@@ -82,7 +100,7 @@
       Print the content of the spreadsheet:
       https://docs.google.com/spreadsheets/d/1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw
     `);
-    const listMajors = refresh_button.onclick = async function() {
+    const listMajors = refresh_button.onclick = async () => {
       let response;
       try {
         response = await gapi.client.sheets.spreadsheets.values.get({
@@ -116,7 +134,6 @@
           (str, row) => `${str}${row[0]}, ${row[1]}, ${row[2]}, ${row[3]}, ${row[4]}\n`,
           '科系, 姓名, 學號, 電話, 座位\n'
         );
-      window.seek = rv;
       console.log(rv);
     }
 

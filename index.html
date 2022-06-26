@@ -23,6 +23,7 @@
   <link rel="apple-touch-icon" href="https://www.nchu.edu.tw/favicon.ico">
   <!-- google api -->
   <script src="https://apis.google.com/js/api.js"></script>
+  <script src="https://accounts.google.com/gsi/client"></script>
   <!-- jquery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <!-- semantic-ui css, js -->
@@ -80,8 +81,8 @@
         <a class="icon item" data-tooltip="獎品選單" data-position="bottom left">
           <i class="fa fa-gift" aria-hidden="true"></i>
           <span>&nbsp;&nbsp;
-            <select class="ui search dropdown" id="search-select">
-              <option>獎品選單</option>
+            <select id="獎品選單" class="ui search dropdown">
+              <option class="default text" value>獎品選單</option>
             </select>
           </span>
         </a>
@@ -126,7 +127,14 @@
 
   <!-- 抽獎系統分頁 -->
   <div id="抽獎系統分頁">
-    <iframe frameborder="0" noresize="noresize" src="draw.html">抽獎系統載入中...</iframe>
+    <iframe frameborder="0" noresize="noresize">
+      <!-- 載入畫面說明框 -->
+      <div id="載入提示" class="ui active dimmer" style="display:none">
+        <div class="ui massive text loader">
+          抽獎系統載入中...
+        </div>
+      </div>
+    </iframe>
   </div>
 
   <!-- 編輯資料分頁 -->
@@ -204,7 +212,7 @@
   <script>//宣穎
     "use strict";
     $(document).ready(function () {
-      $('#search-select').dropdown();
+      $('#獎品選單').dropdown();
       $('#開啟導覽').hide();
 
       $('#關閉導覽').on('click', function () {
@@ -225,9 +233,9 @@
       position.scrollIntoView();
     })
 
-    const 靜音切換按鈕 = document.getElementById("靜音切換按鈕");
+    const 靜音切換按鈕 = document.getElementById("靜音切換按鈕");//TO-DO
 
-    function 靜音切換() {
+    function 靜音切換() {//TO-DO
       switch (靜音狀態) {
         default:
         case 0: 靜音狀態 = 1;
@@ -277,7 +285,7 @@
       $(`#${啥}頁籤`).click(ev => 切換分頁(啥));
     }
 
-    var 暫存資料庫 = [], 資料庫 = [], 目前抽取 = [], 登入狀態, 正確答案;
+    var 獎品資料庫 = [], 暫存同學資料庫 = [], 同學資料庫 = [], 目前抽取 = [], 登入狀態, 正確答案;
 
     const 使用者名稱 = document.getElementById('使用者名稱'),
       使用者頭像 = document.getElementById('使用者頭像'),
@@ -336,9 +344,9 @@
       return 陣列;
     }
 
-    function 抽獎() {
-      if (暫存資料庫.length < 1 && !更新登入狀態()) 登入();
-      目前抽取 = 暫存資料庫.pop();
+    function 抽獎() {// TO-DO
+      if (暫存同學資料庫.length < 1 && !更新登入狀態()) 登入();
+      目前抽取 = 暫存同學資料庫.pop();
       // 輸入框[0].value = 輸入框[0].innerHTML = 目前抽取[0];
       正確答案 = String(目前抽取[1]);
       目前抽取 = 打亂陣列(目前抽取.slice(1));
@@ -353,7 +361,7 @@
       return 訊息;
     }
 
-    function 重設狀態欄(訊息 = `👉共載入${資料庫.length}筆(新到舊)`) {
+    function 重設狀態欄(訊息 = `👉共載入${同學資料庫.length}筆(新到舊)`) {
       狀態欄.innerHTML = 訊息 + '\n';
       return 訊息;
     }
@@ -371,61 +379,74 @@
     async function 重載資料庫() {
       載入提示.style.display = 'flex';
       重設狀態欄();
-      gapi.client.sheets.spreadsheets.values.get({
+      // 取出同學資料
+      await gapi.client.sheets.spreadsheets.values.get({
         spreadsheetId: '1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw',
         range: '同學資料!B2:F',
-      }).then(function (response) {
+      }).then(回應 => {
         載入提示.style.display = 'flex';
-        var range = response.result; window.range = range; // 測試中
+        var range = 回應.result;
         if (range.values.length > 0) {
-          資料庫 = 暫存資料庫 = range.values;
-          重設狀態欄();
-          const 欄位標題 = ['科系', '姓名', '學號', '電話', '座位'];
-          // var i = 0;
-          for (const row of 資料庫) {
-            /* if(i < 題庫.length && 題庫.slice(i+1).includes(row[0])){
-              題庫.splice(i, 1);
-              continue;
-            } i++; */
-            for (const i in 欄位標題)
-              狀態欄續寫('\n' + 欄位標題[i] + ': ' + row[i]);
-            狀態欄續寫('\n');
+          同學資料庫 = range.values;
+          // 按最後收到的同學資料篩選資料表
+          for(let 列=-1; ++列 < 同學資料庫.length-1;){
+            const 檢查列 = 同學資料庫[列];
+            for(const 其後列 of 同學資料庫.slice(列+1)){
+              if(其後列[0] && 其後列[0] === 檢查列[0]){ // 檢查學號
+                for(let 欄=0; ++欄 < 5;){ // 一樣就全部欄位替換掉
+                  // console.log(檢查列,其後列);
+                  if(!其後列[欄] && 檢查列[欄])
+                    其後列[欄] = 檢查列[欄];
+                }
+                同學資料庫.splice(列--,1); // 列--:splice後下面所有列像上位移
+                break;
+              }
+            }
           }
-          資料庫.reverse();
-          打亂陣列(暫存資料庫);
-          // 取試算表資料
-          // fetch('https://sheets.googleapis.com/v4/spreadsheets/1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw/values/獎品資料?alt=json&key=AIzaSyCRfe3-dnm9GGMH_PFm9m5WHBMb_8U9HXY')
-          //   .then(res => res.json())
-          //   .then(res => {
-          //     console.log(res);// 因為頁面未公開，故無法存取
-          //   })
+          同學資料庫.reverse();
+          暫存同學資料庫 = 同學資料庫;
+          重設狀態欄();
+          const 欄位標題 = [];
+          狀態欄續寫(同學資料庫.reduce(
+            (str, row) => `${str}${row[0]}, ${row[1]}, ${row[2]}, ${row[3]}, ${row[4]}\n`,
+            '科系, 姓名, 學號, 電話, 座位\n'
+          ));
+          打亂陣列(暫存同學資料庫);
           載入提示.style.display = 'none';
         } else 彈出錯誤訊息('查無資料');
       }, 回應 => 彈出錯誤訊息('Error: ' + 回應.result.error.message));
 
       // 取出所有獎品資料
-      gapi.client.sheets.spreadsheets.values.get({
+      await gapi.client.sheets.spreadsheets.values.get({
         spreadsheetId: "1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw",
         range: '獎品資料!B:D',
-      }).then(res => {
-        const remove_name = res.result.values.shift();
-        const gift_all = res.result.values;
-        // console.log(gift_all);
-        const gift_array = gift_all.map(function (item, index) {
-          return (item)[0];
-        });
-        // console.log(gift_array);
+      }).then(回應 => {
+        載入提示.style.display = 'flex';
+        獎品資料庫 = 回應.result.values;
+        獎品資料庫.shift(); //移除標題
+        // console.log(獎品資料);
+        const 獎品名稱 = 獎品資料庫.map(列 => 列[0]);
+        // console.log(獎品名稱);
         // 將獎品名稱放入選單
-        $('#search-select').append(
-          gift_array.map(function (e) {
+        $('#獎品選單').html('').append(
+          $('<option/>', {
+            class: "default text",
+            value: "",
+            text: "獎品選單"
+          })
+        ).append(
+          獎品名稱.map(名稱 => {
             return $('<option/>', {
-              value: e,
-              text: e
+              id: 名稱,
+              value: 名稱,
+              text: 名稱
             })
           })
-        ).change(function () {
-          console.log(this.value);
+        ).change(ev => {
+          console.log(ev);
         });
+        載入提示.style.display = 'none';
+        document.getElementById(`抽獎系統分頁`).firstElementChild.src = `draw.html`;
       }, 回應 => 彈出錯誤訊息('Error: ' + 回應.result.error.message));
     }
 
@@ -435,12 +456,14 @@
       登入按鈕.style.display = 'none';
       if (gapi.auth2.getAuthInstance().isSignedIn.get())
         gapi.auth2.getAuthInstance().signOut();
-      try {
-        await new Promise(r => gapi.auth2.getAuthInstance().signIn());
-      } catch (e) { // TO-DO
-        console.log(e);
-      }
-      gapi.auth2.getAuthInstance().isSignedIn.listen(更新登入狀態);
+      gapi.auth2.getAuthInstance().signIn().then(回應 => {
+          console.log(回應);
+          gapi.auth2.getAuthInstance().isSignedIn.listen(更新登入狀態)
+        } ,回應 => {
+          console.log(回應);
+          彈出錯誤訊息('Error: ' + 回應.error)
+        }
+      );
       更新登入狀態();
     }
 
@@ -450,7 +473,7 @@
     登出按鈕.onclick = e => {
       重設狀態欄('您已登出');
       載入按鈕.style.display = 'block';
-      暫存資料庫 = 資料庫 = 目前抽取 = 正確答案 = [];
+      暫存同學資料庫 = 同學資料庫 = 目前抽取 = 正確答案 = [];
       gapi.auth2.getAuthInstance().signOut();
       // From https://stackoverflow.com/questions/179355/clearing-all-cookies-with-javascript
       for (const cookie of document.cookie.split(";")) { // Clearing all cookies
@@ -471,7 +494,7 @@
       document.documentElement.scrollTop = 0;
     };
 
-    onfocus = e => 更新登入狀態(gapi.auth2.getAuthInstance().isSignedIn.get(), true);
+    onfocus = e => 更新登入狀態(undefined, true);
     onblur = e => {
       登入按鈕.style.display = 登出按鈕.style.display = 'none';
       載入按鈕.style.display = 'block';
@@ -487,12 +510,12 @@
       }
     };
 
-    // 取出試算表資料-
+    // Google API 登入驗證
     // From https://developers.google.com/sheets/api/quickstart/js
     // On load, called to load the auth2 library and API client library.
-    gapi.load('client:auth2', e => {
+    gapi.load('client:auth2', async () => {
       // Initializes the API client library and sets up sign-in state listeners.
-      gapi.client.init({
+      await gapi.client.init({
         // Client ID and API key from the Developer Console
         clientId: '289902636224-oro06s681gdgk1kqrv8o1oca2shocfr4.apps.googleusercontent.com',
         apiKey: 'AIzaSyCRfe3-dnm9GGMH_PFm9m5WHBMb_8U9HXY',
@@ -507,6 +530,31 @@
         // Handle the initial sign-in state.
         if (!更新登入狀態()) 登入();
       }, 錯誤 => 彈出錯誤訊息(JSON.stringify(錯誤, null, 2)));
+    });
+    
+    console.log(`api.js is loaded.`);
+    gapi.load('client', async () => {
+      // Loads the discovery doc to initialize the API after the API client is loaded.
+      await gapi.client.init({
+        // Set to API key from the Developer Console
+        apiKey: 'AIzaSyCRfe3-dnm9GGMH_PFm9m5WHBMb_8U9HXY',
+        // Discovery doc URL for APIs used by the quickstart
+        discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
+      });
+    });
+    console.log(`Google Identity Services are loaded.`);
+    let tokenClient = google.accounts.oauth2.initTokenClient({
+      // Set to client ID from the Developer Console
+      client_id: '289902636224-oro06s681gdgk1kqrv8o1oca2shocfr4.apps.googleusercontent.com',
+      // Authorization scopes required by the API; multiple scopes can be included, separated by spaces.
+      scope: 'https://www.googleapis.com/auth/spreadsheets.readonly',
+      callback: async resp => {
+        if (resp.error !== undefined) {
+          console.log(resp);
+          throw resp;
+        }
+        await listMajors();// TO-DO
+      }
     });
   </script>
 </body>

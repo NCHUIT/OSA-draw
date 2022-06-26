@@ -16,6 +16,8 @@
     <!-- Swiper -->
     <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
     <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -105,13 +107,26 @@
                 prevEl: ".swiper-button-custom-prev"
             }
         });
-        // 取試算表資料
-        // fetch('https://sheets.googleapis.com/v4/spreadsheets/1uPs6CBFz1edahBCSY8HzUTmippmlutsDuhFfvM1tsiw/values/獎品資料?alt=json&key=AIzaSyCRfe3-dnm9GGMH_PFm9m5WHBMb_8U9HXY')
-        //     .then(res => res.json())
-        //     .then(res => {
-        //         console.log(res)
-        //     })
-        onload = ev => console.log(parent.資料庫);
+        onload = ev => {
+            console.log(
+                'draw log\n',
+                parent.同學資料庫,
+                parent.獎品資料庫
+            );
+            console.log(parent.獎品資料庫.map(列 => 列[2])); // 所有圖片網址
+            $(".swiper-wrapper").html('');//清空
+            $(".swiper-wrapper").append(
+                parent.獎品資料庫.map(列 => 列[2]).map(網址 => 
+                    $("<div/>", {class: "swiper-slide"})
+                        .append($("<div/>",{class: "swiper-zoom-container"})
+                            .append($("<img/>",{class: "img_shadow", src: 網址}))
+                        )
+                )
+            );
+        };
+        $('#獎品選單', parent.document).change(
+            // TO-DO
+        );
     </script>
 
 </body>
