@@ -89,7 +89,7 @@
 
                 </div>
                 <div class="right">
-                    <button onclick="clickDraw()" class="draw_btn">抽獎</button>
+                    <button class="draw_btn">抽獎</button>
                 </div>
             </div>
         </div>
@@ -124,9 +124,14 @@
                 )
             );
         };
-        $('#獎品選單', parent.document).change(
-            // TO-DO
-        );
+        var 抽獎人數 = 1;
+        $('#獎品選單', parent.document).change(ev => {
+            for(const 獎品資料 of parent.獎品資料庫)
+                if(獎品資料[0]==ev.target.value) 抽獎人數 = 獎品資料[1];
+            if(抽獎人數>1) $('.draw_btn').html(`抽${抽獎人數}人`);
+            else $('.draw_btn').html(`抽獎`);
+        });
+        $('.draw_btn').click(()=>parent.抽獎(抽獎人數));
     </script>
 
 </body>

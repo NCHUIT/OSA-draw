@@ -285,7 +285,7 @@
       $(`#${啥}頁籤`).click(ev => 切換分頁(啥));
     }
 
-    var 獎品資料庫 = [], 暫存同學資料庫 = [], 同學資料庫 = [], 目前抽取 = [], 登入狀態, 正確答案;
+    var 獎品資料庫 = [], 暫存同學資料庫 = [], 同學資料庫 = [], 目前中獎同學 = [], 已中獎暫存資料庫 = [], 登入狀態;
 
     const 使用者名稱 = document.getElementById('使用者名稱'),
       使用者頭像 = document.getElementById('使用者頭像'),
@@ -344,15 +344,26 @@
       return 陣列;
     }
 
-    function 抽獎() {// TO-DO
+    function 抽獎(人數 = 1) {// TO-DO
       if (暫存同學資料庫.length < 1 && !更新登入狀態()) 登入();
-      目前抽取 = 暫存同學資料庫.pop();
-      // 輸入框[0].value = 輸入框[0].innerHTML = 目前抽取[0];
-      正確答案 = String(目前抽取[1]);
-      目前抽取 = 打亂陣列(目前抽取.slice(1));
-      // for (const 元素 of 輸入框.slice(1))
-      //   元素.value = 元素.innerHTML = 目前抽取.pop();
-      // for (const i in 輸入框) 目前抽取[i] = 輸入框[i].innerHTML;
+      打亂陣列(暫存同學資料庫);
+      目前中獎同學 = [];
+      for(let i = 0; i < 人數 && 暫存同學資料庫.length > 0; ++i)
+        目前中獎同學.push(暫存同學資料庫.pop());
+      for(const 中獎同學 of 目前中獎同學)
+        已中獎暫存資料庫.push(中獎同學);
+      if(暫存同學資料庫.length < 1)
+        彈出錯誤訊息('沒有同學可以抽了');
+      重設狀態欄(目前中獎同學.reduce(
+        (str, row) => `${str}${row[0]}, ${row[1]}, ${row[2]}, ${row[3]}, ${row[4]}\n`,
+        `👉這次中獎同學，共${目前中獎同學.length}人\n科系, 姓名, 學號, 電話, 座位\n`
+      )+已中獎暫存資料庫.reduce(
+        (str, row) => `${str}${row[0]}, ${row[1]}, ${row[2]}, ${row[3]}, ${row[4]}\n`,
+        `👉所有中獎同學，共${已中獎暫存資料庫.length}人\n科系, 姓名, 學號, 電話, 座位\n`
+      )+暫存同學資料庫.reduce(
+        (str, row) => `${str}${row[0]}, ${row[1]}, ${row[2]}, ${row[3]}, ${row[4]}\n`,
+        `🙅未中獎同學，共${暫存同學資料庫.length}人\n科系, 姓名, 學號, 電話, 座位\n`
+      ));
     }
 
     // From https://developers.google.com/sheets/api/quickstart/js
@@ -473,7 +484,7 @@
     登出按鈕.onclick = e => {
       重設狀態欄('您已登出');
       載入按鈕.style.display = 'block';
-      暫存同學資料庫 = 同學資料庫 = 目前抽取 = 正確答案 = [];
+      暫存同學資料庫 = 同學資料庫 = 已中獎暫存資料庫 = [];
       gapi.auth2.getAuthInstance().signOut();
       // From https://stackoverflow.com/questions/179355/clearing-all-cookies-with-javascript
       for (const cookie of document.cookie.split(";")) { // Clearing all cookies
@@ -520,7 +531,7 @@
         clientId: '289902636224-oro06s681gdgk1kqrv8o1oca2shocfr4.apps.googleusercontent.com',
         apiKey: 'AIzaSyCRfe3-dnm9GGMH_PFm9m5WHBMb_8U9HXY',
         /**Array of API discovery doc URLs for APIs used by the quickstart */
-        discoveryDocs: ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
+        discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4','https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
         /**Authorization scopes required by the API; multiple scopes can be
          * included, separated by spaces. */
         scope: "https://www.googleapis.com/auth/spreadsheets.readonly"
@@ -539,7 +550,7 @@
         // Set to API key from the Developer Console
         apiKey: 'AIzaSyCRfe3-dnm9GGMH_PFm9m5WHBMb_8U9HXY',
         // Discovery doc URL for APIs used by the quickstart
-        discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
+        discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4','https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
       });
     });
     console.log(`Google Identity Services are loaded.`);
