@@ -1,0 +1,19 @@
+<input type="file"><br>
+<p class="content"></p>
+<script>
+    const content = document.querySelector('.content');
+    const reader = new FileReader();
+
+    reader.onload = () => {
+        // this will then display a text file
+        var filecontent = reader.result.split('\r\n');
+        filecontent = filecontent.map(row => row.split(','));
+        content.innerText = filecontent;
+        content.innerText = reader.result;
+    };
+    document.querySelector('input[type=file]').onchange = ev => {
+        const [file] = ev.target.files;
+
+        if (file) reader.readAsText(file);
+    };
+</script>

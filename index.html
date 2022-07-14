@@ -45,9 +45,6 @@
   <![endif]-->
   <!-- css樣式 -->
   <link rel="stylesheet" href="css/style.css">
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 
 <body>
@@ -82,7 +79,7 @@
           <i class="fa fa-gift" aria-hidden="true"></i>
           <span>&nbsp;&nbsp;
             <select id="獎品選單" class="ui search dropdown">
-              <option class="default text" value>獎品選單</option>
+              <option class="default text" value>搜尋獎品...</option>
             </select>
           </span>
         </a>
@@ -121,7 +118,7 @@
   <div id="使用說明分頁" style="display:none">
     <div class="vh100">
       <!-- hackmd 使用說明-->
-      <iframe id="說明" frame-border="0" src="https://hackmd.io/@NCHUIT/ending-lottery">說明載入中...</iframe>
+      <iframe id="說明" frame-border="0" src="https://hackmd.io/@NCHUIT/OSA-draw">說明載入中...</iframe>
     </div>
   </div>
 
@@ -165,11 +162,9 @@
   <!-- 抽獎結果分頁 -->
   <div id="抽獎結果分頁" style="display:none">
     <div class="ui segment">
-
+      <pre id="狀態欄" class="ui container">👉資料載入中…<br></pre>
     </div>
   </div>
-
-  <pre id="狀態欄" class="ui container">👉資料載入中…<br></pre>
 
   <!-- 至頂按鈕 -->
   <div id="至頂按鈕" class="cursor_pointer circular massive ui negative icon button" data-tooltip="回到最上面"
@@ -478,6 +473,26 @@
       更新登入狀態();
     }
 
+    function 圖片網址轉換(網址) { // ex: https://drive.google.com/open?id=1ED9oMT0c7wWQy8RAng8AA3hh1s9uo6Ya
+      return 'https://drive.google.com/uc?id='+new URLSearchParams(new URL(網址).search).get("id");
+      let 圖片網址;
+      console.log(網址, new URLSearchParams(new URL(網址).search).get("id"));
+      // form: https://stackoverflow.com/questions/22607150/getting-the-url-parameters-inside-the-html-page
+      // form: https://stackoverflow.com/questions/39381563/get-file-content-of-google-docs-using-google-drive-api-v3
+      gapi.client.drive.files.get({
+          fileId: new URLSearchParams(new URL(網址).search).get("id"),
+          fields: 'webContentLink'
+      }).then(
+        success => 圖片網址 = success.result.webContentLink, //the link is in the success.result object
+        fail => {
+            console.log(fail);
+            彈出錯誤訊息('Error: ' + fail.result.error.message);
+        }
+      )
+      console.log(圖片網址);
+      return 圖片網址;
+    };
+
     // EventListener
     登入按鈕.onclick = 錯誤訊息視窗登入按鈕.onclick = 登入;
 
@@ -531,10 +546,13 @@
         clientId: '289902636224-oro06s681gdgk1kqrv8o1oca2shocfr4.apps.googleusercontent.com',
         apiKey: 'AIzaSyCRfe3-dnm9GGMH_PFm9m5WHBMb_8U9HXY',
         /**Array of API discovery doc URLs for APIs used by the quickstart */
-        discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4','https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
+        discoveryDocs: [
+          'https://sheets.googleapis.com/$discovery/rest?version=v4',
+          'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'
+        ],
         /**Authorization scopes required by the API; multiple scopes can be
          * included, separated by spaces. */
-        scope: "https://www.googleapis.com/auth/spreadsheets.readonly"
+        scope: "https://www.googleapis.com/auth/spreadsheets.readonly https://www.googleapis.com/auth/drive.metadata.readonly"
       }).then(e => {
         // Listen for sign-in state changes.
         gapi.auth2.getAuthInstance().isSignedIn.listen(更新登入狀態);
@@ -550,7 +568,10 @@
         // Set to API key from the Developer Console
         apiKey: 'AIzaSyCRfe3-dnm9GGMH_PFm9m5WHBMb_8U9HXY',
         // Discovery doc URL for APIs used by the quickstart
-        discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4','https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
+        discoveryDocs: [
+          'https://sheets.googleapis.com/$discovery/rest?version=v4',
+          'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'
+        ]
       });
     });
     console.log(`Google Identity Services are loaded.`);
@@ -558,7 +579,7 @@
       // Set to client ID from the Developer Console
       client_id: '289902636224-oro06s681gdgk1kqrv8o1oca2shocfr4.apps.googleusercontent.com',
       // Authorization scopes required by the API; multiple scopes can be included, separated by spaces.
-      scope: 'https://www.googleapis.com/auth/spreadsheets.readonly',
+      scope: 'https://www.googleapis.com/auth/spreadsheets.readonly https://www.googleapis.com/auth/drive.metadata.readonly',
       callback: async resp => {
         if (resp.error !== undefined) {
           console.log(resp);
