@@ -18,7 +18,7 @@
 [url-NCHUIT-el]: https://nchuit.cc/OSA-draw
 [url-gapi-js-qs]: https://developers.google.com/sheets/api/quickstart/js
 
-執行 [`localhost.bat`](./localhost.bat) 架設本地伺服器，  
+執行 [`啟動.bat`](./啟動.bat) 架設本地伺服器，  
 需安裝 php 5.4.4 以上 或 Python 2.x/3.x，  
 或有其他方法(如 IIS)架設 localhost 亦可。  
 埠(port)必須是80，或需用其他埠號請通知。  
