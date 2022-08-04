@@ -487,8 +487,7 @@
     }
 
     function 圖片網址轉換(網址) { // ex: https://drive.google.com/open?id=1ED9oMT0c7wWQy8RAng8AA3hh1s9uo6Ya
-      return 'https://drive.google.com/uc?id='+new URLSearchParams(new URL(網址).search).get("id");
-      let 圖片網址;
+      let 圖片網址 = 'https://drive.google.com/uc?id='+new URLSearchParams(new URL(網址).search).get("id");
       console.log(網址, new URLSearchParams(new URL(網址).search).get("id"));
       // form: https://stackoverflow.com/questions/22607150/getting-the-url-parameters-inside-the-html-page
       // form: https://stackoverflow.com/questions/39381563/get-file-content-of-google-docs-using-google-drive-api-v3
@@ -496,7 +495,7 @@
           fileId: new URLSearchParams(new URL(網址).search).get("id"),
           fields: 'webContentLink'
       }).then(
-        success => 圖片網址 = success.result.webContentLink, //the link is in the success.result object
+        success => {圖片網址 = success.result.webContentLink}, //the link is in the success.result object
         fail => {
             console.log(fail);
             彈出錯誤訊息('Error: ' + fail.result.error.message);

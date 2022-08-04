@@ -181,6 +181,7 @@
                 parent.同學資料庫,
                 parent.獎品資料庫
             );
+            parent.window.獎品資料庫 = parent.獎品資料庫;
             console.log(parent.獎品資料庫.map(列 => 列[2])); // 所有圖片網址
             const arr = parent.獎品資料庫.map(列 => 列[2]);
             const obj = { ...arr };
@@ -210,7 +211,6 @@
         $('.draw_btn').click(() => parent.抽獎(抽獎人數));
 
 
-        $('#rwd_result').append($("<div/>", { class: ".draw_table" }));
     </script>
 
 </body>
